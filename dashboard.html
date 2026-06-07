@@ -208,14 +208,28 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.5);}
             <div class="field-label" style="margin-bottom:6px;">Apply same category to ALL photos</div>
             <select id="bulkCategorySelect" class="field-select" onchange="applyBulkCategory()">
               <option value="">— select to apply to all —</option>
-              <option value="BRAIDS">BRAIDS</option>
-              <option value="TWISTS">TWISTS</option>
-              <option value="LOCS">LOCS</option>
-              <option value="CORNROWS">CORNROWS</option>
-              <option value="WEAVES">WEAVES</option>
-              <option value="QUICK WEAVE">QUICK WEAVE</option>
-              <option value="PONYTAILS">PONYTAILS</option>
-              <option value="NATURAL HAIR">NATURAL HAIR</option>
+              <option value="ROPE TWIST">ROPE TWIST</option>
+              <option value="JUMBO ROPE TWIST">JUMBO ROPE TWIST</option>
+              <option value="KNOTLESS BOX BRAID">KNOTLESS BOX BRAID</option>
+              <option value="TWISTED BRAID">TWISTED BRAID</option>
+              <option value="TWIST BRAID WITH BANTOO KNOTS END">TWIST BRAID WITH BANTOO KNOTS END</option>
+              <option value="FINGER COIL">FINGER COIL</option>
+              <option value="FINGER WAVE">FINGER WAVE</option>
+              <option value="KNOTLESS WITH BANTOO KNOT ENDS">KNOTLESS WITH BANTOO KNOT ENDS</option>
+              <option value="ISLAND TWIST WITH BANTOO KNOTS">ISLAND TWIST WITH BANTOO KNOTS</option>
+              <option value="ISLAND TWIST">ISLAND TWIST</option>
+              <option value="WASH AND CURL">WASH AND CURL</option>
+              <option value="TWISTED BRAIDS">TWISTED BRAIDS</option>
+              <option value="KNOTLESS BRAID">KNOTLESS BRAID</option>
+              <option value="UP DO">UP DO</option>
+              <option value="BOX BRAID">BOX BRAID</option>
+              <option value="BOX BRAID WITH CURL">BOX BRAID WITH CURL</option>
+              <option value="PONY TAIL">PONY TAIL</option>
+              <option value="LOW CUT SEW IN">LOW CUT SEW IN</option>
+              <option value="CORNROW STITCH BRAID">CORNROW STITCH BRAID</option>
+              <option value="NATURAL CORNROW UP">NATURAL CORNROW UP</option>
+              <option value="NATURAL COLOUR">NATURAL COLOUR</option>
+              <option value="SILK PRESS">SILK PRESS</option>
               <option value="OTHER">OTHER</option>
             </select>
           </div>
@@ -376,7 +390,31 @@ function showToast(msg,success=true){
 }
 
 // GALLERY — multi-upload
-const CATEGORIES = ['BRAIDS','TWISTS','LOCS','CORNROWS','WEAVES','QUICK WEAVE','PONYTAILS','NATURAL HAIR','OTHER'];
+const CATEGORIES = [
+  'ROPE TWIST',
+  'JUMBO ROPE TWIST',
+  'KNOTLESS BOX BRAID',
+  'TWISTED BRAID',
+  'TWIST BRAID WITH BANTOO KNOTS END',
+  'FINGER COIL',
+  'FINGER WAVE',
+  'KNOTLESS WITH BANTOO KNOT ENDS',
+  'ISLAND TWIST WITH BANTOO KNOTS',
+  'ISLAND TWIST',
+  'WASH AND CURL',
+  'TWISTED BRAIDS',
+  'KNOTLESS BRAID',
+  'UP DO',
+  'BOX BRAID',
+  'BOX BRAID WITH CURL',
+  'PONY TAIL',
+  'LOW CUT SEW IN',
+  'CORNROW STITCH BRAID',
+  'NATURAL CORNROW UP',
+  'NATURAL COLOUR',
+  'SILK PRESS',
+  'OTHER'
+];
 let uploadQueue = []; // [{file, objectUrl, category}]
 
 function categoryOptions(selected='BRAIDS'){
