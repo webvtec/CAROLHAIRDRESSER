@@ -1044,7 +1044,40 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
 <div class="modal-overlay" id="myBookingsModal"><div class="modal-box"><button class="modal-close" onclick="closeMyBookings()">×</button><h3 class="modal-title">My Bookings</h3><div id="myBookingsContent"></div></div></div>
 
 <!-- PAYMENT INFO MODAL -->
-<div class="modal-overlay" id="paymentInfoModal"><div class="modal-box"><button class="modal-close" onclick="closePaymentInfo()">×</button><h3 class="modal-title">Payment Info</h3><div style="background:var(--navy2);border-radius:12px;padding:16px;border-left:3px solid var(--violet);color:var(--offwhite);"><p style="font-size:14px;text-align:center;color:var(--dim);">Payment details coming soon. ✦</p></div></div></div>
+<div class="modal-overlay" id="paymentInfoModal"><div class="modal-box"><button class="modal-close" onclick="closePaymentInfo()">×</button><h3 class="modal-title">Payment Info</h3>
+<p style="font-size:12px;color:var(--dim);margin-bottom:16px;line-height:1.6;">To secure your appointment, please send your deposit via bank transfer using the details below, then contact us with your proof of payment.</p>
+<div style="background:var(--navy2);border-radius:14px;border:1px solid var(--line);overflow:hidden;margin-bottom:14px;">
+  <div style="background:linear-gradient(135deg,var(--violet3),var(--violet2));padding:12px 16px;display:flex;align-items:center;gap:10px;">
+    <span style="font-size:20px;">🏦</span>
+    <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:2px;color:#fff;">SCOTIABANK</span>
+  </div>
+  <div style="padding:4px 0;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--glassline);">
+      <span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);">Account Name</span>
+      <span style="font-size:13px;font-weight:700;color:var(--offwhite);font-family:'Syne',sans-serif;">CAROL DAYE</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--glassline);">
+      <span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);">Account Type</span>
+      <span style="font-size:13px;color:var(--offwhite);">Savings</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--glassline);">
+      <span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);">Branch / Transit</span>
+      <span style="font-size:13px;color:var(--offwhite);">50195</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--glassline);">
+      <span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);">Account Number</span>
+      <span style="font-size:13px;font-weight:700;color:var(--violet);font-family:'Syne',sans-serif;letter-spacing:1px;">50195 000032898</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 16px;">
+      <span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);">Currency</span>
+      <span style="font-size:13px;color:var(--offwhite);">JMD</span>
+    </div>
+  </div>
+</div>
+<div style="background:rgba(255,209,102,0.07);border:1px solid rgba(255,209,102,0.25);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--gold);line-height:1.6;">
+  ⚠️ After sending your deposit, please WhatsApp or call us with your proof of payment and booking number to confirm your slot.
+</div>
+</div></div>
 
 <script>
 // ===== SIDEBAR =====
