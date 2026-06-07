@@ -193,28 +193,41 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.5);}
       <div class="tab-body">
         <div class="section-title"><span>✦</span> Gallery Management</div>
         <div class="upload-area" id="uploadArea">
-          <input type="file" id="photoFileInput" accept="image/*" onchange="previewImage(event)"/>
+          <input type="file" id="photoFileInput" accept="image/*" multiple onchange="handleFilesSelected(event)"/>
           <div class="upload-icon">✦</div>
-          <p><strong>Tap to choose a photo</strong><br>or drag and drop here</p>
+          <p id="uploadAreaLabel"><strong>Tap to choose photos</strong><br>or drag &amp; drop &mdash; select multiple at once</p>
         </div>
-        <img id="imagePreview" alt="Preview"/>
-        <div id="uploadProgress">
-          <p style="font-size:12px;color:var(--dim);margin-bottom:6px;">Uploading...</p>
-          <progress id="progressBar" value="0" max="100"></progress>
+
+        <!-- Per-photo queue -->
+        <div id="uploadQueue" style="display:none;margin-bottom:14px;">
+          <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--violet);margin-bottom:10px;">
+            Selected &nbsp;<span id="queueCount" style="color:var(--dim);font-weight:400;"></span>
+          </div>
+          <div id="queueItems" style="display:flex;flex-direction:column;gap:10px;"></div>
+          <div style="margin-top:14px;padding:14px;background:var(--navy2);border-radius:10px;border:1px solid var(--glassline);">
+            <div class="field-label" style="margin-bottom:6px;">Apply same category to ALL photos</div>
+            <select id="bulkCategorySelect" class="field-select" onchange="applyBulkCategory()">
+              <option value="">— select to apply to all —</option>
+              <option value="BRAIDS">BRAIDS</option>
+              <option value="TWISTS">TWISTS</option>
+              <option value="LOCS">LOCS</option>
+              <option value="CORNROWS">CORNROWS</option>
+              <option value="WEAVES">WEAVES</option>
+              <option value="QUICK WEAVE">QUICK WEAVE</option>
+              <option value="PONYTAILS">PONYTAILS</option>
+              <option value="NATURAL HAIR">NATURAL HAIR</option>
+              <option value="OTHER">OTHER</option>
+            </select>
+          </div>
         </div>
-        <div class="field-label">Category</div>
-        <select id="photoCategorySelect" class="field-select">
-          <option value="BRAIDS">BRAIDS</option>
-          <option value="TWISTS">TWISTS</option>
-          <option value="LOCS">LOCS</option>
-          <option value="CORNROWS">CORNROWS</option>
-          <option value="WEAVES">WEAVES</option>
-          <option value="QUICK WEAVE">QUICK WEAVE</option>
-          <option value="PONYTAILS">PONYTAILS</option>
-          <option value="NATURAL HAIR">NATURAL HAIR</option>
-          <option value="OTHER">OTHER</option>
-        </select>
-        <button class="btn-primary" onclick="uploadPhoto()" id="uploadBtn">Add Photo ✦</button>
+
+        <!-- Overall upload progress -->
+        <div id="uploadProgress" style="display:none;margin-bottom:12px;">
+          <p id="uploadProgressLabel" style="font-size:12px;color:var(--dim);margin-bottom:6px;">Uploading...</p>
+          <progress id="progressBar" value="0" max="100" style="width:100%;height:6px;border-radius:3px;accent-color:var(--violet);"></progress>
+        </div>
+
+        <button class="btn-primary" onclick="uploadAllPhotos()" id="uploadBtn" style="display:none;margin-bottom:6px;">Upload All Photos ✦</button>
         <div id="adminGallery"></div>
       </div>
     </div>
@@ -362,30 +375,131 @@ function showToast(msg,success=true){
   setTimeout(()=>{t.style.opacity='0';t.style.bottom='30px';setTimeout(()=>t.style.visibility='hidden',500);},3000);
 }
 
-// GALLERY
-function previewImage(event){
-  const file=event.target.files[0];if(!file)return;
-  const preview=document.getElementById('imagePreview'),reader=new FileReader();
-  reader.onload=e=>{preview.src=e.target.result;preview.style.display='block';};
-  reader.readAsDataURL(file);
-  document.getElementById('uploadArea').querySelector('p').innerHTML=`<strong>${file.name}</strong><br><span style="color:var(--dimmer);">Ready to upload</span>`;
+// GALLERY — multi-upload
+const CATEGORIES = ['BRAIDS','TWISTS','LOCS','CORNROWS','WEAVES','QUICK WEAVE','PONYTAILS','NATURAL HAIR','OTHER'];
+let uploadQueue = []; // [{file, objectUrl, category}]
+
+function categoryOptions(selected='BRAIDS'){
+  return CATEGORIES.map(c=>`<option value="${c}"${c===selected?' selected':''}>${c}</option>`).join('');
 }
 
-function uploadPhoto(){
-  const fileInput=document.getElementById('photoFileInput'),category=document.getElementById('photoCategorySelect').value.trim(),file=fileInput.files[0];
-  if(!file){alert('Please select a photo first.');return;}
-  if(!category){alert('Please select a category.');return;}
-  const btn=document.getElementById('uploadBtn');btn.disabled=true;btn.textContent='Uploading...';
-  const progressDiv=document.getElementById('uploadProgress'),progressBar=document.getElementById('progressBar');
-  progressDiv.style.display='block';
-  const ext=file.name.split('.').pop();
-  const fileName=`gallery/${Date.now()}_${Math.random().toString(36).substring(2)}.${ext}`;
-  const uploadTask=storage.ref(fileName).put(file);
-  uploadTask.on('state_changed',
-    snap=>{progressBar.value=(snap.bytesTransferred/snap.totalBytes)*100;},
-    err=>{alert('Upload failed: '+err.message);btn.disabled=false;btn.textContent='Add Photo ✦';progressDiv.style.display='none';},
-    ()=>{uploadTask.snapshot.ref.getDownloadURL().then(url=>db.collection('gallery').add({url,category,sortOrder:Date.now(),uploadedAt:firebase.firestore.FieldValue.serverTimestamp()})).then(()=>{showToast('✅ Photo uploaded!');fileInput.value='';document.getElementById('imagePreview').style.display='none';progressDiv.style.display='none';progressBar.value=0;btn.disabled=false;btn.textContent='Add Photo ✦';document.getElementById('uploadArea').querySelector('p').innerHTML='<strong>Tap to choose a photo</strong><br>or drag and drop here';}).catch(err=>{alert('Error saving: '+err.message);btn.disabled=false;btn.textContent='Add Photo ✦';progressDiv.style.display='none';});}
-  );
+function handleFilesSelected(event){
+  const files = Array.from(event.target.files);
+  if(!files.length) return;
+
+  // Add to queue (avoid re-adding same file object)
+  files.forEach(file=>{
+    uploadQueue.push({ file, objectUrl: URL.createObjectURL(file), category: 'BRAIDS', status: 'pending' });
+  });
+
+  renderQueue();
+  document.getElementById('uploadAreaLabel').innerHTML =
+    `<strong>${uploadQueue.length} photo${uploadQueue.length!==1?'s':''} selected</strong><br><span style="color:var(--dimmer);">Tap to add more</span>`;
+  document.getElementById('uploadQueue').style.display = 'block';
+  document.getElementById('uploadBtn').style.display = 'block';
+}
+
+function renderQueue(){
+  const container = document.getElementById('queueItems');
+  document.getElementById('queueCount').textContent = `(${uploadQueue.length})`;
+  container.innerHTML = '';
+  uploadQueue.forEach((item, idx)=>{
+    if(item.status === 'done') return; // hide completed ones
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:center;gap:10px;background:var(--navy2);border:1px solid var(--glassline);border-radius:10px;padding:10px;';
+    div.innerHTML = `
+      <img src="${item.objectUrl}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;flex-shrink:0;border:1px solid var(--glassline);" alt="preview"/>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;color:var(--offwhite);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px;">${item.file.name}</div>
+        <select class="field-select" style="padding:6px 10px;font-size:12px;" onchange="updateQueueCategory(${idx}, this.value)">
+          ${categoryOptions(item.category)}
+        </select>
+      </div>
+      <button onclick="removeFromQueue(${idx})" style="background:none;border:none;color:var(--coral);font-size:18px;cursor:pointer;flex-shrink:0;padding:4px;">✕</button>`;
+    container.appendChild(div);
+  });
+}
+
+function updateQueueCategory(idx, value){ uploadQueue[idx].category = value; }
+
+function applyBulkCategory(){
+  const val = document.getElementById('bulkCategorySelect').value;
+  if(!val) return;
+  uploadQueue.forEach(item=>{ if(item.status==='pending') item.category = val; });
+  renderQueue();
+}
+
+function removeFromQueue(idx){
+  URL.revokeObjectURL(uploadQueue[idx].objectUrl);
+  uploadQueue.splice(idx, 1);
+  if(!uploadQueue.length){ resetUploadUI(); return; }
+  renderQueue();
+  document.getElementById('uploadAreaLabel').innerHTML =
+    `<strong>${uploadQueue.length} photo${uploadQueue.length!==1?'s':''} selected</strong><br><span style="color:var(--dimmer);">Tap to add more</span>`;
+}
+
+async function uploadAllPhotos(){
+  const pending = uploadQueue.filter(i=>i.status==='pending');
+  if(!pending.length){ alert('No photos to upload.'); return; }
+
+  const btn = document.getElementById('uploadBtn');
+  btn.disabled = true;
+
+  const progressDiv = document.getElementById('uploadProgress');
+  const progressBar = document.getElementById('progressBar');
+  const progressLabel = document.getElementById('uploadProgressLabel');
+  progressDiv.style.display = 'block';
+
+  let completed = 0;
+  const total = pending.length;
+
+  for(const item of pending){
+    progressLabel.textContent = `Uploading ${completed + 1} of ${total}...`;
+    progressBar.value = (completed / total) * 100;
+    item.status = 'uploading';
+    try {
+      const ext = item.file.name.split('.').pop();
+      const fileName = `gallery/${Date.now()}_${Math.random().toString(36).substring(2)}.${ext}`;
+      const uploadTask = storage.ref(fileName).put(item.file);
+
+      await new Promise((resolve, reject)=>{
+        uploadTask.on('state_changed',
+          snap=>{ progressBar.value = ((completed + snap.bytesTransferred/snap.totalBytes) / total) * 100; },
+          reject,
+          ()=>{ uploadTask.snapshot.ref.getDownloadURL().then(url=>{
+            return db.collection('gallery').add({ url, category: item.category, sortOrder: Date.now(), uploadedAt: firebase.firestore.FieldValue.serverTimestamp() });
+          }).then(()=>{ item.status='done'; URL.revokeObjectURL(item.objectUrl); resolve(); }).catch(reject); }
+        );
+      });
+      completed++;
+    } catch(err){
+      item.status = 'pending';
+      showToast(`❌ Failed: ${item.file.name}`, false);
+    }
+  }
+
+  progressBar.value = 100;
+  progressLabel.textContent = `Done! ${completed} of ${total} uploaded.`;
+  showToast(`✅ ${completed} photo${completed!==1?'s':''} uploaded!`);
+
+  // Clean up queue — remove done items
+  uploadQueue = uploadQueue.filter(i=>i.status!=='done');
+  setTimeout(()=>{
+    if(!uploadQueue.length){ resetUploadUI(); } 
+    else { renderQueue(); btn.disabled=false; progressDiv.style.display='none'; }
+  }, 1500);
+}
+
+function resetUploadUI(){
+  uploadQueue = [];
+  document.getElementById('photoFileInput').value = '';
+  document.getElementById('uploadQueue').style.display = 'none';
+  document.getElementById('uploadProgress').style.display = 'none';
+  document.getElementById('uploadBtn').style.display = 'none';
+  document.getElementById('progressBar').value = 0;
+  document.getElementById('bulkCategorySelect').value = '';
+  document.getElementById('uploadAreaLabel').innerHTML = '<strong>Tap to choose photos</strong><br>or drag &amp; drop &mdash; select multiple at once';
+  document.getElementById('uploadBtn').disabled = false;
 }
 
 function loadGallery(){
