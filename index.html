@@ -41,7 +41,7 @@
   --linecyan:   rgba(0,212,255,0.12);
   --glassline:  rgba(255,255,255,0.06);
   --sidebar-w:  260px;
-  --topbar-h:   58px;
+  --topbar-h:   46px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -69,7 +69,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 18px;
+  padding: 0 14px;
   z-index: 1000;
 }
 
@@ -97,7 +97,7 @@ body {
 
 /* Hamburger button */
 .hamburger {
-  width: 40px; height: 40px;
+  width: 34px; height: 34px;
   border-radius: 10px;
   background: rgba(124,58,237,0.1);
   border: 1px solid var(--line);
@@ -127,14 +127,15 @@ body {
 .topbar-brand {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: 16px;
-  letter-spacing: 4px;
+  font-size: 12px;
+  letter-spacing: 3px;
   text-transform: uppercase;
   background: linear-gradient(120deg, var(--cyan) 0%, var(--violet) 50%, var(--coral) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .topbar-right {
@@ -146,7 +147,7 @@ body {
 
 
 .topbar-auth {
-  width: 36px; height: 36px;
+  width: 30px; height: 30px;
   border-radius: 9px;
   background: linear-gradient(135deg, var(--violet), var(--violet2));
   border: none;
