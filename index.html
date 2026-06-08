@@ -1401,5 +1401,12 @@ function closePaymentInfo(){document.getElementById('paymentInfoModal').classLis
 document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});});
 </script>
 <script>if('serviceWorker'in navigator){navigator.serviceWorker.getRegistrations().then(regs=>regs.forEach(r=>r.unregister()));}</script>
+<!-- Footer Banner -->
+<div style="position:fixed;bottom:0;left:0;right:0;z-index:1000;background:linear-gradient(135deg,#0d0d14 0%,#12101e 100%);border-top:1px solid rgba(124,58,237,0.35);box-shadow:0 -4px 24px rgba(124,58,237,0.12);">
+  <a href="https://webvtec.com" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 20px;text-decoration:none;" onmouseover="this.style.background='rgba(124,58,237,0.08)'" onmouseout="this.style.background='transparent'">
+    <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(90deg,#7C3AED,#FF4D6D);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">WEBVTEC.COM</span>
+    <span style="font-family:'Outfit',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38);">· Click to request your site</span>
+  </a>
+</div>
 </body>
 </html>
