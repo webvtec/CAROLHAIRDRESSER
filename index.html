@@ -1042,7 +1042,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
 
     <!-- Phone step 1: enter number -->
     <div id="adminPhoneStep1">
-      <input id="adminPhoneInput" type="tel" placeholder="+1876XXXXXXX" autocomplete="tel"
+      <input id="adminPhoneInput" type="tel" placeholder="8768505464" autocomplete="tel"
 style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:10px;text-align:center;"/>
       <button onclick="sendAdminCode()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">📱 Send code via SMS</button>
     </div>
@@ -1215,10 +1215,13 @@ function resetAdminRecaptcha() {
 
 function sendAdminCode() {
   const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
-  let phone = document.getElementById('adminPhoneInput').value.trim();
-  if (!phone) { msg.textContent = "Enter a phone number."; msg.style.display = "block"; return; }
-  if (!phone.startsWith('+')) { msg.textContent = "Use full international format, e.g. +1876..."; msg.style.display = "block"; return; }
-  // Only allow the authorised number to even request a code
+  let raw = document.getElementById('adminPhoneInput').value.replace(/\D/g,'');
+  if (!raw) { msg.textContent = "Enter a phone number."; msg.style.display = "block"; return; }
+  // Auto-build E.164: 10 digits = +1XXXXXXXXXX, 11 digits starting with 1 = +1XXXXXXXXXX, else prepend +
+  let phone;
+  if (raw.length === 10) phone = '+1' + raw;
+  else if (raw.length === 11 && raw.startsWith('1')) phone = '+' + raw;
+  else phone = '+' + raw;
   if (!ADMIN_PHONES.includes(phone)) { msg.textContent = "Access denied."; msg.style.display = "block"; return; }
   const verifier = getAdminRecaptcha();
   firebase.auth().signInWithPhoneNumber(phone, verifier)
