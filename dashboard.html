@@ -362,7 +362,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore(),storage=firebase.storage();
 const ADMIN_UIDS=["DYQo9my6BkPngCSSKwo2ZjuUsh23"];
-const ADMIN_PHONES=["+1876XXXXXXX"];
+const ADMIN_PHONES=["+18768505464"];
 function isAdmin(user){if(!user)return false;if(ADMIN_UIDS.includes(user.uid))return true;if(user.phoneNumber&&ADMIN_PHONES.includes(user.phoneNumber))return true;return false;}
 
 // AUTH GUARD

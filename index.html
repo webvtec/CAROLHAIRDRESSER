@@ -1040,7 +1040,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
 
     <!-- Phone step 1: enter number -->
     <div id="adminPhoneStep1">
-      <input id="adminPhoneInput" type="tel" placeholder="+1876XXXXXXX" autocomplete="tel"
+      <input id="adminPhoneInput" type="tel" placeholder="+18768505464" autocomplete="tel"
 style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:10px;text-align:center;"/>
       <button onclick="sendAdminCode()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">📱 Send code via SMS</button>
     </div>
@@ -1166,7 +1166,7 @@ firebase.auth().onAuthStateChanged(user => {
 const ADMIN_UIDS = ["DYQo9my6BkPngCSSKwo2ZjuUsh23"];
 // Phone number(s) allowed as admin — MUST be E.164 format, e.g. "+18761234567"
 // 👉 Replace the placeholder below with the real admin phone number.
-const ADMIN_PHONES = ["+1876XXXXXXX"];
+const ADMIN_PHONES = ["+18768505464"];
 function isAdmin(user) {
   if (!user) return false;
   if (ADMIN_UIDS.includes(user.uid)) return true;
