@@ -376,18 +376,8 @@ function grantDashboardAccess(){
 }
 
 // Method 2: PIN access (set by pin.html via sessionStorage)
-// Must sign into Firebase anonymously — otherwise Storage & Firestore
-// auth rules block all writes even though PIN was correct.
 if(sessionStorage.getItem('pinAccess')==='granted'){
-  firebase.auth().onAuthStateChanged(function(user){
-    if(user){
-      grantDashboardAccess();
-    } else {
-      firebase.auth().signInAnonymously()
-        .then(function(){ grantDashboardAccess(); })
-        .catch(function(err){ console.error('Anon sign-in failed:',err); grantDashboardAccess(); });
-    }
-  });
+  grantDashboardAccess();
 } else {
   // Method 1: Firebase Auth (existing UID-based login)
   firebase.auth().onAuthStateChanged(user=>{
@@ -546,10 +536,7 @@ async function uploadAllPhotos(){
       completed++;
     } catch(err){
       item.status = 'pending';
-      const user = firebase.auth().currentUser;
-      const authInfo = user ? `uid=${user.uid} anon=${user.isAnonymous}` : 'NOT SIGNED IN';
-      console.error('Upload error:', err.code, err.message, '| Auth:', authInfo);
-      showToast(`❌ Failed: ${err.code || err.message}`, false);
+      showToast(`❌ Failed: ${item.file.name}`, false);
     }
   }
 
