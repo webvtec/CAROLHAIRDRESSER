@@ -8,7 +8,7 @@
 <meta name="description" content="CAROL'S BEAUTY – Premium hair & beauty services in Mandeville, Jamaica.">
 <meta name="author" content="CAROL'S BEAUTY">
 <link rel="canonical" href="https://carolatsandysbeauty.com/">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"CAROL'S BEAUTY","url":"https://carolatsandysbeauty.com","telephone":"+18763422293","address":{"@type":"PostalAddress","addressLocality":"Mandeville","addressCountry":"JM"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"CAROL'S BEAUTY","url":"https://carolatsandysbeauty.com","telephone":"+18768505464","address":{"@type":"PostalAddress","addressLocality":"Mandeville","addressCountry":"JM"}}</script>
 
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
@@ -186,9 +186,7 @@ body {
   flex-direction: column;
   transform: translateX(-100%);
   transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 .sidebar.open { transform: translateX(0); }
 
@@ -799,7 +797,7 @@ body {
    ================================================ */
 .modal-overlay { position: fixed; inset: 0; background: rgba(5,10,26,0.85); display: none; justify-content: center; align-items: center; z-index: 9000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 16px; }
 .modal-overlay.open { display: flex; }
-.modal-box { background: var(--navy3); border-radius: 22px; width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto; overflow-x: hidden; position: relative; padding: 26px; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(124,58,237,0.2); }
+.modal-box { background: var(--navy3); border-radius: 22px; width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto; position: relative; padding: 26px; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(124,58,237,0.2); overflow: hidden; }
 .modal-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--violet), var(--coral), var(--cyan)); }
 .modal-close { position: sticky; top: 0; float: right; background: none; border: none; color: var(--dimmer); font-size: 26px; cursor: pointer; line-height: 1; z-index: 10; padding: 0 0 10px 10px; }
 .modal-close:hover { color: var(--coral); }
@@ -897,7 +895,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
     </a>
   </div>
   <div class="sidebar-location" style="padding-top:0;">
-    <a href="tel:+18763422293">
+    <a href="tel:+18768505464">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.72a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       +1 (876) 850-5464
     </a>
@@ -1030,28 +1028,11 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
     <button class="modal-close" onclick="closeAdminModal()">×</button>
     <div style="font-size:32px;margin-bottom:8px;color:var(--violet);">✦</div>
     <h3 class="modal-title">Admin Access</h3>
-    <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Sign in with Google or use Face / Fingerprint.</p>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Sign in with the authorised Google account.</p>
     <button onclick="adminGoogleSignIn()" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">
       <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Sign in with Google
     </button>
-
-    <div style="display:flex;align-items:center;gap:10px;margin:6px 0 14px;color:var(--dimmer);font-size:12px;">
-      <div style="flex:1;height:1px;background:var(--glassline);"></div>OR<div style="flex:1;height:1px;background:var(--glassline);"></div>
-    </div>
-
-    <!-- Biometric login -->
-    <div id="adminBiometricSection">
-      <button id="adminBiometricBtn" onclick="adminBiometricSignIn()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:8px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">
-        🔐 Sign in with Face / Fingerprint
-      </button>
-      <button id="adminRegisterBtn" onclick="adminBiometricRegister()" style="width:100%;padding:10px;background:none;color:var(--dimmer);border:1px dashed var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:12px;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)';this.style.color='var(--offwhite)'" onmouseout="this.style.borderColor='var(--glassline)';this.style.color='var(--dimmer)'">
-        ＋ Set up Face / Fingerprint (first time)
-      </button>
-    </div>
-
-    <div id="adminRecaptcha" style="display:flex;justify-content:center;margin-bottom:12px;"></div>
-
     <p id="adminLoginMsg" style="color:var(--coral);font-size:13px;display:none;"></p>
     <button onclick="closeAdminModal()" style="background:none;border:none;color:var(--dimmer);font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;">Cancel</button>
   </div>
@@ -1097,7 +1078,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
 <div style="background:rgba(255,209,102,0.07);border:1px solid rgba(255,209,102,0.25);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--gold);line-height:1.6;">
   ⚠️ When sending your deposit online, please use your <strong>booking number as the payment reference</strong> so we can match your transfer to your slot.
 </div>
-<a href="https://wa.me/18763422293?text=Hi%20Carol%2C%20I'd%20like%20to%20send%20my%20deposit%20proof%20of%20payment.%20My%20booking%20number%20is%3A%20" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:14px;padding:14px;background:linear-gradient(135deg,#25D366,#1DA851);color:#fff;border-radius:12px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;box-sizing:border-box;">
+<a href="https://wa.me/18768505464?text=Hi%20Carol%2C%20I'd%20like%20to%20send%20my%20deposit%20proof%20of%20payment.%20My%20booking%20number%20is%3A%20" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:14px;padding:14px;background:linear-gradient(135deg,#25D366,#1DA851);color:#fff;border-radius:12px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;box-sizing:border-box;">
   <span style="font-size:18px;">💬</span> Send Proof of Payment on WhatsApp
 </a>
 </div></div>
@@ -1159,26 +1140,10 @@ firebase.auth().onAuthStateChanged(user => {
   updateAuthButton(user);
 });
 
-// ===== ADMIN IDENTITY =====
-// Google account UID(s) allowed as admin
-const ADMIN_UIDS = ["DYQo9my6BkPngCSSKwo2ZjuUsh23"];
-// Phone number(s) allowed as admin — MUST be E.164 format, e.g. "+18761234567"
-// 👉 Replace the placeholder below with the real admin phone number.
-const ADMIN_PHONES = ["+18763422293"];
-function isAdmin(user) {
-  if (!user) return false;
-  if (ADMIN_UIDS.includes(user.uid)) return true;
-  if (user.phoneNumber && ADMIN_PHONES.includes(user.phoneNumber)) return true;
-  return false;
-}
+const ADMIN_UID = "DYQo9my6BkPngCSSKwo2ZjuUsh23";
 
 function login() { document.getElementById('adminLoginModal').classList.add('open'); }
-function closeAdminModal() {
-  document.getElementById('adminLoginModal').classList.remove('open');
-  const msg = document.getElementById('adminLoginMsg');
-  msg.style.display = 'none';
-  msg.style.color = 'var(--coral)';
-}
+function closeAdminModal() { document.getElementById('adminLoginModal').classList.remove('open'); document.getElementById('adminLoginMsg').style.display = 'none'; }
 
 function adminGoogleSignIn() {
   const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
@@ -1186,81 +1151,10 @@ function adminGoogleSignIn() {
   provider.setCustomParameters({ prompt: 'select_account' });
   firebase.auth().signInWithPopup(provider)
     .then(result => {
-      if (!isAdmin(result.user)) { return firebase.auth().signOut().then(() => { msg.textContent = "Access denied."; msg.style.display = "block"; }); }
+      if (result.user.uid !== ADMIN_UID) { return firebase.auth().signOut().then(() => { msg.textContent = "Access denied."; msg.style.display = "block"; }); }
       closeAdminModal(); window.location.href = 'dashboard.html';
     })
     .catch(error => { if (error.code === 'auth/popup-closed-by-user') return; msg.textContent = "Sign-in failed: " + error.message; msg.style.display = "block"; });
-}
-
-// ===== ADMIN BIOMETRIC (Face / Fingerprint) =====
-const BIOMETRIC_TOKEN = 'cbsAdmin_xK9mP2v8';
-const BIOMETRIC_CRED_KEY = 'carolAdminCredId';
-
-function adminBiometricAvailable() {
-  return window.PublicKeyCredential !== undefined;
-}
-
-async function adminBiometricRegister() {
-  const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
-  if (!adminBiometricAvailable()) {
-    msg.textContent = "This device doesn't support Face/Fingerprint login."; msg.style.display = 'block'; return;
-  }
-  try {
-    const challenge = crypto.getRandomValues(new Uint8Array(32));
-    const userId = crypto.getRandomValues(new Uint8Array(16));
-    const credential = await navigator.credentials.create({
-      publicKey: {
-        challenge,
-        rp: { name: "Carol's Beauty Admin", id: location.hostname },
-        user: { id: userId, name: 'carol-admin', displayName: "Carol" },
-        pubKeyCredParams: [{ alg: -7, type: 'public-key' }, { alg: -257, type: 'public-key' }],
-        authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'preferred' },
-        timeout: 60000
-      }
-    });
-    const credId = btoa(String.fromCharCode(...new Uint8Array(credential.rawId)));
-    localStorage.setItem(BIOMETRIC_CRED_KEY, credId);
-    msg.style.color = 'var(--cyan)';
-    msg.textContent = '✓ Face/Fingerprint set up! You can now use it to sign in.';
-    msg.style.display = 'block';
-    document.getElementById('adminBiometricBtn').style.display = 'block';
-  } catch (e) {
-    msg.style.color = 'var(--coral)';
-    msg.textContent = e.name === 'NotAllowedError' ? 'Cancelled — try again.' : 'Setup failed: ' + e.message;
-    msg.style.display = 'block';
-  }
-}
-
-async function adminBiometricSignIn() {
-  const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
-  if (!adminBiometricAvailable()) {
-    msg.textContent = "This device doesn't support Face/Fingerprint login."; msg.style.display = 'block'; return;
-  }
-  const credIdStr = localStorage.getItem(BIOMETRIC_CRED_KEY);
-  if (!credIdStr) {
-    msg.style.color = 'var(--coral)';
-    msg.textContent = 'No biometric registered. Use "Set up" first.'; msg.style.display = 'block'; return;
-  }
-  try {
-    const credId = Uint8Array.from(atob(credIdStr), c => c.charCodeAt(0));
-    const challenge = crypto.getRandomValues(new Uint8Array(32));
-    await navigator.credentials.get({
-      publicKey: {
-        challenge,
-        rpId: location.hostname,
-        allowCredentials: [{ type: 'public-key', id: credId, transports: ['internal'] }],
-        userVerification: 'required',
-        timeout: 60000
-      }
-    });
-    sessionStorage.setItem('cbsAdminToken', BIOMETRIC_TOKEN);
-    closeAdminModal();
-    window.location.href = 'dashboard.html';
-  } catch (e) {
-    msg.style.color = 'var(--coral)';
-    msg.textContent = e.name === 'NotAllowedError' ? 'Cancelled — try again.' : 'Sign-in failed: ' + e.message;
-    msg.style.display = 'block';
-  }
 }
 
 function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout failed: ' + e.message)); }
