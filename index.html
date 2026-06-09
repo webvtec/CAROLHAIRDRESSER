@@ -1259,7 +1259,9 @@ function verifyAdminCode() {
   if (!code) { msg.textContent = "Enter the code you received."; msg.style.display = "block"; return; }
   adminConfirmationResult.confirm(code)
     .then(result => {
-      if (!isAdmin(result.user)) { return firebase.auth().signOut().then(() => { msg.textContent = "Access denied."; msg.style.display = "block"; }); }
+      console.log('Firebase phone number:', result.user.phoneNumber);
+      console.log('Firebase UID:', result.user.uid);
+      if (!isAdmin(result.user)) { return firebase.auth().signOut().then(() => { msg.textContent = "Access denied. Phone: " + result.user.phoneNumber; msg.style.display = "block"; }); }
       closeAdminModal(); window.location.href = 'dashboard.html';
     })
     .catch(error => { msg.textContent = "Invalid or expired code."; msg.style.display = "block"; });
