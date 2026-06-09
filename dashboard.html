@@ -376,8 +376,16 @@ function grantDashboardAccess(){
 }
 
 // Method 2: PIN access (set by pin.html via sessionStorage)
+// Sign in anonymously so Firebase Storage & Firestore auth rules pass.
 if(sessionStorage.getItem('pinAccess')==='granted'){
-  grantDashboardAccess();
+  const _existingUser=firebase.auth().currentUser;
+  if(_existingUser){
+    grantDashboardAccess();
+  } else {
+    firebase.auth().signInAnonymously()
+      .then(()=>grantDashboardAccess())
+      .catch(err=>{ console.warn('Anonymous sign-in failed:',err.message); grantDashboardAccess(); });
+  }
 } else {
   // Method 1: Firebase Auth (existing UID-based login)
   firebase.auth().onAuthStateChanged(user=>{
