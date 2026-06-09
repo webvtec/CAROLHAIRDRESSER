@@ -3,12 +3,43 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CAROL'S BEAUTY STYLES– BEST HAIRDRESSER IN MANDEVILLE</title>
+<title>Carol's Beauty Styles – Best Hairdresser & Braiding Salon in Mandeville, Jamaica</title>
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="description" content="CAROL'S BEAUTY – Premium hair & beauty services in Mandeville, Jamaica.">
-<meta name="author" content="CAROL'S BEAUTY">
+<meta name="description" content="Carol's Beauty Styles — Mandeville's top hair salon for braids, knotless box braids, locs, weaves, silk press & lashes. Book online. Mon–Sat 7AM–6PM. Call (876) 850-5464.">
+<meta name="keywords" content="hairdresser Mandeville Jamaica, braids Mandeville, knotless box braids Jamaica, hair salon Mandeville, locs Mandeville, weave install Jamaica, silk press Mandeville, best hairdresser Mandeville, Carol's Beauty, braiding salon Jamaica">
+<meta name="author" content="Carol's Beauty Styles">
+<meta property="og:title" content="Carol's Beauty Styles – Best Braiding Salon in Mandeville, Jamaica"/>
+<meta property="og:description" content="Premium braids, locs, weaves, lashes & more. Book your appointment online. Mandeville, Jamaica."/>
+<meta property="og:url" content="https://carolatsandysbeauty.com/"/>
+<meta property="og:type" content="website"/>
 <link rel="canonical" href="https://carolatsandysbeauty.com/">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"CAROL'S BEAUTY","url":"https://carolatsandysbeauty.com","telephone":"+18768505464","address":{"@type":"PostalAddress","addressLocality":"Mandeville","addressCountry":"JM"}}</script>
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"HairSalon",
+  "name":"Carol's Beauty Styles",
+  "url":"https://carolatsandysbeauty.com",
+  "telephone":"+18768505464",
+  "priceRange":"$$",
+  "description":"Mandeville's premier hair salon specialising in knotless box braids, locs, weaves, cornrows, silk press, lashes and more. Serving Manchester Parish, Jamaica.",
+  "address":{"@type":"PostalAddress","streetAddress":"Upstairs Home Solution, 13","addressLocality":"Mandeville","addressRegion":"Manchester","addressCountry":"JM"},
+  "geo":{"@type":"GeoCoordinates","latitude":"18.0411","longitude":"-77.5097"},
+  "openingHoursSpecification":[
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"07:00","closes":"18:00"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"07:00","closes":"18:00"}
+  ],
+  "hasMap":"https://maps.app.goo.gl/3gVNKBvk4XybycEV6"
+}</script>
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Where is Carol's Beauty located in Mandeville?","acceptedAnswer":{"@type":"Answer","text":"Upstairs Home Solution, 13 Manchester Road, Mandeville, Jamaica. Open Monday to Saturday, 7:00 AM to 6:00 PM."}},
+    {"@type":"Question","name":"How do I book a hair appointment in Mandeville?","acceptedAnswer":{"@type":"Answer","text":"Book online at carolatsandysbeauty.com — choose your service, pick a date and time, and confirm with a $2,000 JMD deposit. Or call (876) 850-5464."}},
+    {"@type":"Question","name":"What hair services do you offer?","acceptedAnswer":{"@type":"Answer","text":"Knotless box braids, boho braids, goddess braids, tribal braids, cornrows, island twists, passion twists, soft locs, butterfly locs, faux locs, starter locs, jerry curls, weave install, silk press, hair colour, ponytails, lashes and eyebrow waxing."}},
+    {"@type":"Question","name":"How much do braids cost in Mandeville Jamaica?","acceptedAnswer":{"@type":"Answer","text":"Cornrows start from $5,000 JMD. Knotless box braids start from $8,000 JMD. Full pricing is on the website price list."}},
+    {"@type":"Question","name":"Do you do locs in Mandeville?","acceptedAnswer":{"@type":"Answer","text":"Yes — starter locs, soft locs, butterfly locs and faux locs all available at Carol's Beauty Styles in Mandeville."}}
+  ]
+}</script>
 
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
@@ -191,7 +222,16 @@ body {
   scrollbar-width: thin;
   scrollbar-color: rgba(124,58,237,0.4) transparent;
 }
-.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar
+/* FAQ */
+.faq-item{border-radius:10px;border:1px solid var(--glassline);margin-bottom:6px;overflow:hidden;background:var(--navy2);cursor:pointer;transition:border-color .2s;}
+.faq-item:hover,.faq-item.open{border-color:var(--line);}
+.faq-q{padding:14px 16px;font-size:13px;font-weight:600;color:var(--offwhite);display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:'Syne',sans-serif;letter-spacing:.3px;}
+.faq-q::after{content:'▾';font-size:14px;color:var(--violet);flex-shrink:0;transition:transform .25s;}
+.faq-item.open .faq-q::after{transform:rotate(180deg);}
+.faq-a{display:none;padding:0 16px 14px;font-size:13px;color:var(--dim);line-height:1.7;}
+.faq-item.open .faq-a{display:block;}
+::-webkit-scrollbar { width: 4px; }
 .sidebar::-webkit-scrollbar-track { background: transparent; }
 .sidebar::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.4); border-radius: 4px; }
 .sidebar.open { transform: translateX(0); }
@@ -882,6 +922,11 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
     <span class="nav-link-text">Price List</span>
     <span class="nav-link-arrow">›</span>
   </button>
+  <button class="sidebar-nav-link" id="snav-viewAbout" onclick="switchTab('viewAbout'); closeSidebar();">
+    <span class="nav-link-icon">✿</span>
+    <span class="nav-link-text">About Us</span>
+    <span class="nav-link-arrow">›</span>
+  </button>
 
   <div class="sidebar-divider"></div>
 
@@ -1023,6 +1068,123 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
       <style>.price-style-card{margin-bottom:10px;border-radius:6px;overflow:hidden;border:1px solid var(--glassline);background:rgba(13,21,48,0.5);}.price-style-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;cursor:pointer;user-select:none;background:rgba(124,58,237,0.05);transition:background 0.2s;}.price-style-head:hover{background:rgba(124,58,237,0.12);}.price-style-name{font-family:'Syne','Outfit',sans-serif;font-size:14px;font-weight:600;color:var(--offwhite);letter-spacing:0.5px;}.price-style-name small{display:block;font-size:10px;font-weight:400;color:var(--dim);font-style:italic;margin-top:2px;}.price-style-from{font-size:12px;color:var(--cyan);font-weight:700;white-space:nowrap;font-family:'Outfit',sans-serif;}.price-style-toggle{font-size:14px;color:var(--violet);margin-left:8px;transition:transform 0.25s;}.price-style-card.open .price-style-toggle{transform:rotate(180deg);}.price-style-body{display:none;padding:8px 14px 12px;border-top:1px solid var(--glassline);background:rgba(5,10,26,0.6);}.price-style-card.open .price-style-body{display:block;}.price-size-title{margin-top:8px;margin-bottom:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--violet);}.price-size-title:first-child{margin-top:0;}.price-row-inner{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03);}.price-row-inner:last-child{border-bottom:none;}.price-row-inner .label{font-size:13px;color:var(--offwhite);}.price-row-inner .amt{font-size:13px;color:var(--cyan);font-weight:700;white-space:nowrap;}.price-group-divider{margin:14px 0 8px;padding:6px 10px;border-radius:3px;background:rgba(124,58,237,0.08);border-left:3px solid var(--violet);font-family:'Syne',sans-serif;font-style:italic;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--offwhite);}.price-group-divider:first-child{margin-top:4px;}</style>
       <script>(function(){const a=[{group:'Braids',styles:[{name:'Knotless Box Braids',sizes:{Large:[['Bra-strap length',8000],['Mid-back length',9000],['Waist length',10000],['Hip length',11000],['Tailbone length',12000],['Classic length',14000],['Mid-thigh length',18000]],Medium:[['Armpit length',8000],['Bra-strap length',9000],['Mid-back length',10000],['Waist length',11000],['Hip length',12000],['Tailbone length',13000],['Classic length',16000],['Mid-thigh length',20000]],Small:[['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',12000],['Hip length',13000],['Tailbone length',15000],['Classic length',17000],['Mid-thigh length',22000]]}},{name:'Boho Knotless Braids',sizes:{Large:[['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',13000],['Hip length',15000],['Tailbone length',17000],['Classic length',20000],['Mid-thigh length',23000]],Medium:[['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',22000],['Mid-thigh length',24000]],Small:[['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',17000],['Hip length',19000],['Tailbone length',21000],['Classic length',24000],['Mid-thigh length',26000]]}},{name:'Goddess Knotless Braids',sizes:{Large:[['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500],['Classic length',20500],['Mid-thigh length',23500]],Medium:[['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',22500],['Mid-thigh length',25500]],Small:[['Armpit length',13000],['Bra-strap length',14000],['Mid-back length',15000],['Waist length',17500],['Hip length',19500],['Tailbone length',21500],['Classic length',24500],['Mid-thigh length',27500]]}},{name:'Tribal Braids',sizes:{Large:[['Armpit length',8000],['Bra-strap length',9000],['Mid-back length',10000],['Waist length',12000],['Hip length',14000],['Tailbone length',16000],['Classic length',18000],['Mid-thigh length',21000]],Medium:[['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',13000],['Hip length',15000],['Tailbone length',17000],['Classic length',19000],['Mid-thigh length',22000]],Small:[['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',21000],['Mid-thigh length',24000]]}},{name:'Fulani Braids',sizes:{Large:[['Armpit length',8500],['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500],['Classic length',18500],['Mid-thigh length',21500]],Medium:[['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500],['Classic length',19500],['Mid-thigh length',22500]],Small:[['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',21500],['Mid-thigh length',24500]]}},{name:'Lemonade Braids',sizes:{Medium:[['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500],['Classic length',18500],['Mid-thigh length',21500]],Small:[['Bra-strap length',11500],['Mid-back length',12500],['Waist length',14500],['Hip length',16500],['Tailbone length',18500],['Classic length',20500],['Mid-thigh length',23500]]}},{name:'Box Braids',sizes:{Large:[['Bra-strap length',7500],['Mid-back length',8500],['Waist length',9500],['Hip length',10500],['Tailbone length',11500],['Classic length',13500],['Mid-thigh length',17000]],Medium:[['Bra-strap length',8500],['Mid-back length',9500],['Waist length',10500],['Hip length',11500],['Tailbone length',12500],['Classic length',15000],['Mid-thigh length',19000]],Small:[['Bra-strap length',9500],['Mid-back length',10500],['Waist length',11500],['Hip length',12500],['Tailbone length',14000],['Classic length',16000],['Mid-thigh length',21000]]}},{name:'Jumbo Braids',subtitle:'Large only',sizes:{Large:[['Mid-back length',8000],['Waist length',9000],['Hip length',10000],['Tailbone length',11000],['Classic length',13000],['Mid-thigh length',16000]]}}]},{group:'Twists',styles:[{name:'Island Twist',sizes:{Medium:[['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',22000],['Mid-thigh length',24000]],Small:[['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',17000],['Hip length',19000],['Tailbone length',21000],['Classic length',24000],['Mid-thigh length',26000]]}},{name:'Passion Twists',sizes:{Large:[['Armpit length',8500],['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500]],Medium:[['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500]],Small:[['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500]]}},{name:'Mini Twists',sizes:{Medium:[['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000]],Small:[['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000]]}}]},{group:'Locs',styles:[{name:'Soft Locs',sizes:{Medium:[['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000]],Small:[['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000],['Tailbone length',20000]]}},{name:'Butterfly Locs',sizes:{Medium:[['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',22500],['Mid-thigh length',25500]],Small:[['Armpit length',13000],['Bra-strap length',14000],['Mid-back length',15000],['Waist length',17500],['Hip length',19500],['Tailbone length',21500],['Classic length',24500],['Mid-thigh length',27500]]}},{name:'Faux Locs',sizes:{Medium:[['Armpit length',9000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000]],Small:[['Armpit length',9000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000],['Tailbone length',20000]]}}]},{group:'Cornrows',styles:[{name:'Straight Back Cornrows',sizes:{Options:[['2–4 Cornrows',5000],['5–6 Cornrows',5500],['7–8 Cornrows',6000],['9–10 Cornrows',6500],['11–12 Cornrows',7000]]}},{name:'Design Cornrows',sizes:{Options:[['Simple Design',5000],['Medium Design',6000],['Detailed Design',7000],['Complex / Custom Design','8,000 – 9,000']]}},{name:'Zig-Zag Cornrows',sizes:{Options:[['Basic Zig-Zag',5000],['Medium Pattern',6000],['Detailed Pattern',7000],['Complex Pattern','8,000 – 9,000']]}}]},{group:'Weave Services',styles:[{name:'Natural Sew-In',sizes:{Options:[['Basic Install','8,000+']]}},{name:'Closure Sew-In',sizes:{Options:[['Basic Install','10,000+']]}},{name:'Frontal Sew-In',sizes:{Options:[['Basic Install','12,000+']]}}]},{group:'Quick Weave',styles:[{name:'Basic Quick Weave',sizes:{Options:[['Basic Install',5000],['With Styling',6000]]}},{name:'Styled Quick Weave',sizes:{Options:[['Basic Install',6000],['With Styling',7000]]}},{name:'Closure Quick Weave',sizes:{Options:[['Basic Install',7000],['With Styling',8000]]}}]},{group:'Ponytails',styles:[{name:'Sleek Ponytail',sizes:{Options:[['Basic Style','4,500+']]}},{name:'Braided Ponytail',sizes:{Options:[['Basic Style','5,000+']]}},{name:'Half-Up Half-Down Ponytail',sizes:{Options:[['Basic Style','7,000+']]}}]}];function b(p){return typeof p==='number'?'$'+p.toLocaleString():'$'+p;}function c(s){let m=Infinity;Object.values(s).forEach(r=>r.forEach(([,p])=>{const n=typeof p==='number'?p:parseInt(String(p).replace(/[^\d]/g,''),10);if(!isNaN(n)&&n<m)m=n;}));return m===Infinity?0:m;}const d=document.getElementById('hairPriceList');if(!d)return;let h='';a.forEach(g=>{h+=`<div class="price-group-divider">${g.group}</div>`;g.styles.forEach(s=>{const m=c(s.sizes);const st=s.subtitle?`<small>${s.subtitle}</small>`:'';h+=`<div class="price-style-card" onclick="this.classList.toggle('open')"><div class="price-style-head"><div class="price-style-name">${s.name}${st}</div><div style="display:flex;align-items:center;"><span class="price-style-from">from $${m.toLocaleString()}</span><span class="price-style-toggle">▾</span></div></div><div class="price-style-body">`;Object.entries(s.sizes).forEach(([n,r])=>{if(n!=='Options')h+=`<div class="price-size-title">${n}</div>`;r.forEach(([l,p])=>{h+=`<div class="price-row-inner"><span class="label">${l}</span><span class="amt">${b(p)}</span></div>`;});});h+=`</div></div>`;});});h+=`<div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--glassline);"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--violet);margin-bottom:6px;">Optional Extra</div><div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="font-size:13px;color:var(--offwhite);">Custom Design / Accessories</span><span style="font-size:13px;color:var(--cyan);font-weight:700;white-space:nowrap;">$500+</span></div></div>`;d.innerHTML=h;})();</script>
       <div class="price-cta"><button class="btn-neon btn-neon-primary" style="width:auto;" onclick="switchTab('viewBook')">Book Now →</button></div>
+    </div>
+  </div>
+
+  <!-- ABOUT VIEW -->
+  <div class="view" id="viewAbout">
+    <div class="book-hero">
+      <p class="page-eyebrow">Mandeville's Favourite Hair Salon</p>
+      <h2 class="page-title">About Carol's Beauty</h2>
+    </div>
+    <div style="padding:0 20px 60px;max-width:640px;margin:0 auto;">
+
+      <!-- Intro -->
+      <div style="background:var(--navy3);border-radius:16px;padding:22px 20px;border:1px solid var(--line);margin-bottom:20px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--violet),var(--coral),var(--cyan));"></div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--violet);margin-bottom:10px;font-family:'Syne',sans-serif;">Who We Are</p>
+        <h3 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--offwhite);margin-bottom:14px;line-height:1.3;">Premium Hair &amp; Beauty in the Heart of Mandeville, Jamaica</h3>
+        <p style="font-size:14px;color:var(--dim);line-height:1.8;margin-bottom:12px;">Carol's Beauty Styles is Mandeville's go-to destination for <strong style="color:var(--offwhite);">knotless box braids, locs, weaves, cornrows, silk press, lashes</strong> and so much more. Located upstairs at Home Solution, 13 Manchester Road, we've built a reputation across Manchester Parish for quality work, honest pricing and a warm, welcoming experience every single visit.</p>
+        <p style="font-size:14px;color:var(--dim);line-height:1.8;">Whether you're coming in for a <strong style="color:var(--offwhite);">fresh set of braids</strong>, a <strong style="color:var(--offwhite);">silk press</strong>, or your first set of <strong style="color:var(--offwhite);">starter locs</strong>, Carol and her team bring skill, care and creativity to every client in the chair.</p>
+      </div>
+
+      <!-- Stats -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+        <div style="background:var(--navy3);border-radius:12px;padding:16px 12px;text-align:center;border:1px solid var(--line);">
+          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">10+</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.4;">Years Experience</div>
+        </div>
+        <div style="background:var(--navy3);border-radius:12px;padding:16px 12px;text-align:center;border:1px solid var(--line);">
+          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;background:linear-gradient(120deg,var(--violet),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">500+</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.4;">Happy Clients</div>
+        </div>
+        <div style="background:var(--navy3);border-radius:12px;padding:16px 12px;text-align:center;border:1px solid var(--line);">
+          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;background:linear-gradient(120deg,var(--coral),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">30+</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.4;">Services Offered</div>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div style="background:var(--navy3);border-radius:16px;padding:22px 20px;border:1px solid var(--line);margin-bottom:20px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;font-family:'Syne',sans-serif;">What We Offer</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Knotless Box Braids</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Boho &amp; Goddess Braids</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Cornrows &amp; Tribal Braids</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Soft, Faux &amp; Butterfly Locs</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Starter Locs</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Weave &amp; Sew-In Install</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Silk Press</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Hair Colour</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Jerry Curls</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Lashes &amp; Eyebrow Waxing</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Island &amp; Passion Twists</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);">✦</span>Ponytails &amp; Up-dos</div>
+        </div>
+      </div>
+
+      <!-- Why choose us -->
+      <div style="background:var(--navy3);border-radius:16px;padding:22px 20px;border:1px solid var(--line);margin-bottom:20px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--coral);margin-bottom:14px;font-family:'Syne',sans-serif;">Why Clients Choose Us</p>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="font-size:22px;flex-shrink:0;">📍</span><div><strong style="font-size:13px;color:var(--offwhite);display:block;margin-bottom:3px;">Central Mandeville Location</strong><span style="font-size:13px;color:var(--dim);line-height:1.6;">Upstairs Home Solution, 13 Manchester Road — easy to find from anywhere in the parish.</span></div></div>
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="font-size:22px;flex-shrink:0;">💅</span><div><strong style="font-size:13px;color:var(--offwhite);display:block;margin-bottom:3px;">Quality You Can See</strong><span style="font-size:13px;color:var(--dim);line-height:1.6;">Clean parts, neat edges, styles that last. We take pride in every single client.</span></div></div>
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="font-size:22px;flex-shrink:0;">📅</span><div><strong style="font-size:13px;color:var(--offwhite);display:block;margin-bottom:3px;">Easy Online Booking</strong><span style="font-size:13px;color:var(--dim);line-height:1.6;">Book any time — no login needed. Pick your service, choose a slot, confirm with a deposit.</span></div></div>
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="font-size:22px;flex-shrink:0;">💰</span><div><strong style="font-size:13px;color:var(--offwhite);display:block;margin-bottom:3px;">Transparent Pricing</strong><span style="font-size:13px;color:var(--dim);line-height:1.6;">No surprises. Full price list available before you book.</span></div></div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div style="background:var(--navy3);border-radius:16px;padding:22px 20px;border:1px solid var(--line);margin-bottom:20px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-family:'Syne',sans-serif;">Frequently Asked Questions</p>
+        <div>
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">Where is Carol's Beauty located in Mandeville?</div>
+            <div class="faq-a">We are located upstairs at Home Solution, 13 Manchester Road, Mandeville, Jamaica. Open Monday to Saturday, 7:00 AM to 6:00 PM.</div>
+          </div>
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">How do I book an appointment?</div>
+            <div class="faq-a">Tap "Book Appointment" in the menu, choose your service and date, pick an available time slot, and confirm with a $2,000 JMD deposit. No account needed — just fill in your name and phone number. You can also call us at (876) 850-5464.</div>
+          </div>
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">What hair services do you offer?</div>
+            <div class="faq-a">Knotless box braids, boho braids, goddess braids, tribal braids, fulani braids, lemonade braids, cornrows, island twists, passion twists, soft locs, butterfly locs, faux locs, starter locs, jerry curls, natural sew-in, closure sew-in, frontal sew-in, quick weave, silk press, hair colour, ponytails, lashes, and eyebrow waxing.</div>
+          </div>
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">How much is the deposit?</div>
+            <div class="faq-a">A $2,000 JMD deposit is required to secure your slot. Send it via bank transfer to our Scotiabank account and use your booking number as the reference.</div>
+          </div>
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">What is your lateness policy?</div>
+            <div class="faq-a">15 minutes late and the booking is cancelled. We keep a tight schedule so every client is seen on time.</div>
+          </div>
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">How much do braids cost in Mandeville?</div>
+            <div class="faq-a">Prices start from $5,000 JMD for cornrows. Knotless box braids start from $8,000 JMD. Check our full Price List in the menu for all sizes and lengths.</div>
+          </div>
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">Do you do locs in Mandeville?</div>
+            <div class="faq-a">Yes! We offer starter locs, soft locs, butterfly locs and faux locs. Whether starting your loc journey or adding a protective style, we've got you covered.</div>
+          </div>
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">Do I need to create an account to book?</div>
+            <div class="faq-a">No account needed at all. Just enter your name and phone number and book. Simple as that.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location CTA -->
+      <div style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(255,77,109,0.1));border-radius:16px;padding:22px 20px;border:1px solid var(--line);text-align:center;margin-bottom:20px;">
+        <div style="font-size:28px;margin-bottom:10px;">📍</div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--offwhite);margin-bottom:6px;">Find Us in Mandeville</h3>
+        <p style="font-size:13px;color:var(--dim);margin-bottom:16px;line-height:1.7;">Upstairs Home Solution, 13 Manchester Road<br>Mandeville, Manchester, Jamaica<br>Mon – Sat · 7:00 AM – 6:00 PM</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn-neon btn-neon-primary" style="width:100%;" onclick="switchTab('viewBook')">Book Appointment →</button>
+          <a href="https://maps.app.goo.gl/3gVNKBvk4XybycEV6" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;background:var(--navy2);color:var(--cyan);border:1px solid rgba(0,212,255,0.25);border-radius:12px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;">📍 Get Directions on Google Maps</a>
+          <a href="https://wa.me/18768505464?text=Hi%20Carol%2C%20I%27d%20like%20to%20enquire%20about%20a%20booking." target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;background:linear-gradient(135deg,#25D366,#1DA851);color:#fff;border-radius:12px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;">💬 WhatsApp Us</a>
+        </div>
+      </div>
+
     </div>
   </div>
 
