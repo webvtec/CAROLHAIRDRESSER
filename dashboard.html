@@ -155,6 +155,15 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--offwhite
 .clear-row .field-input{flex:1;min-width:180px;margin-bottom:0;}
 
 input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.5);}
+/* FLOATING ADD BOOKING BUTTON */
+.fab{position:fixed;bottom:80px;right:20px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--coral));border:none;color:#fff;font-size:26px;cursor:pointer;box-shadow:0 6px 24px var(--violetglow);z-index:500;display:flex;align-items:center;justify-content:center;transition:all .25s;}
+.fab:hover{transform:translateY(-3px) scale(1.08);box-shadow:0 12px 32px var(--violetglow);}
+
+/* ADD BOOKING MODAL */
+.add-booking-modal .modal-box{max-width:480px;max-height:90vh;overflow-y:auto;text-align:left;}
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}
+@media(max-width:480px){.ab-grid{grid-template-columns:1fr;}}
+
 .status-completed{color:#4ade80;font-weight:700;}
 .status-not{color:var(--coral);font-weight:700;}
 .status-none{color:var(--dimmer);font-style:italic;}
@@ -345,6 +354,110 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.5);}
     <div class="modal-actions">
       <button class="btn-ghost" onclick="closeAdminCancelModal()">Keep</button>
       <button class="btn-danger" onclick="confirmAdminCancel()">Yes, Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- FLOATING ADD BOOKING BUTTON -->
+<button class="fab" onclick="openAddBooking()" title="Add Booking">＋</button>
+
+<!-- ADD BOOKING MODAL -->
+<div id="addBookingModal" class="modal-overlay add-booking-modal">
+  <div class="modal-box modal-wide">
+    <div class="modal-title" style="text-align:left;display:flex;align-items:center;gap:10px;">
+      <span style="color:var(--violet);">📞</span> Add Phone Booking
+    </div>
+    <p style="font-size:12px;color:var(--dim);margin-bottom:20px;line-height:1.6;">Fill in the client's details from the phone call.</p>
+
+    <div class="ab-grid">
+      <div>
+        <label class="field-label">Full Name *</label>
+        <input id="ab-name" class="field-input" type="text" placeholder="Client's full name"/>
+      </div>
+      <div>
+        <label class="field-label">Phone Number *</label>
+        <input id="ab-phone" class="field-input" type="tel" placeholder="(876) 123-4567"/>
+      </div>
+    </div>
+
+    <div class="ab-grid">
+      <div>
+        <label class="field-label">Date *</label>
+        <input id="ab-date" class="field-input" type="date"/>
+      </div>
+      <div>
+        <label class="field-label">Time *</label>
+        <input id="ab-time" class="field-input" type="time"/>
+      </div>
+    </div>
+
+    <label class="field-label">Service *</label>
+    <select id="ab-service" class="field-select">
+      <option value="">— Choose Service —</option>
+      <optgroup label="Braids">
+        <option value="Knotless Box Braids">Knotless Box Braids</option>
+        <option value="Boho Knotless Braids">Boho Knotless Braids</option>
+        <option value="Goddess Knotless Braids">Goddess Knotless Braids</option>
+        <option value="Tribal Braids">Tribal Braids</option>
+        <option value="Fulani Braids">Fulani Braids</option>
+        <option value="Lemonade Braids">Lemonade Braids</option>
+        <option value="Box Braids">Box Braids</option>
+        <option value="Jumbo Braids">Jumbo Braids</option>
+      </optgroup>
+      <optgroup label="Twists">
+        <option value="Island Twist">Island Twist</option>
+        <option value="Passion Twists">Passion Twists</option>
+        <option value="Mini Twists">Mini Twists</option>
+      </optgroup>
+      <optgroup label="Locs">
+        <option value="Starter Locs">Starter Locs</option>
+        <option value="Soft Locs">Soft Locs</option>
+        <option value="Butterfly Locs">Butterfly Locs</option>
+        <option value="Faux Locs">Faux Locs</option>
+      </optgroup>
+      <optgroup label="Curls">
+        <option value="Jerry Curls">Jerry Curls</option>
+      </optgroup>
+      <optgroup label="Cornrows">
+        <option value="Straight Back Cornrows">Straight Back Cornrows</option>
+        <option value="Design Cornrows">Design Cornrows</option>
+        <option value="Zig-Zag Cornrows">Zig-Zag Cornrows</option>
+      </optgroup>
+      <optgroup label="Weaves">
+        <option value="Natural Sew-In">Natural Sew-In</option>
+        <option value="Closure Sew-In">Closure Sew-In</option>
+        <option value="Frontal Sew-In">Frontal Sew-In</option>
+      </optgroup>
+      <optgroup label="Quick Weave">
+        <option value="Basic Quick Weave">Basic Quick Weave</option>
+        <option value="Styled Quick Weave">Styled Quick Weave</option>
+        <option value="Closure Quick Weave">Closure Quick Weave</option>
+      </optgroup>
+      <optgroup label="Ponytails">
+        <option value="Sleek Ponytail">Sleek Ponytail</option>
+        <option value="Braided Ponytail">Braided Ponytail</option>
+        <option value="Half-Up Half-Down Ponytail">Half-Up Half-Down Ponytail</option>
+      </optgroup>
+      <optgroup label="Beauty">
+        <option value="Eyebrow Waxing">Eyebrow Waxing</option>
+      </optgroup>
+      <optgroup label="Other">
+        <option value="Other">Other (see notes)</option>
+      </optgroup>
+    </select>
+
+    <label class="field-label">Total Price (JMD)</label>
+    <input id="ab-total" class="field-input" type="number" placeholder="e.g. 8000" min="0"/>
+
+    <label class="field-label">Notes (optional)</label>
+    <input id="ab-notes" class="field-input" type="text" placeholder="Any extra details..."/>
+
+    <p id="ab-msg" style="font-size:13px;color:var(--coral);margin-bottom:12px;display:none;"></p>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeAddBooking()">Cancel</button>
+      <button class="btn-primary" onclick="submitAdminBooking()">✦ Save Booking</button>
     </div>
   </div>
 </div>
@@ -814,6 +927,109 @@ function showConflictModal(conflicts){
 }
 function closeConflictModal(){document.getElementById('conflictModal').classList.remove('open');}
 function goToBooking(id){closeConflictModal();showSection('reservationsSection');setTimeout(()=>{const target=document.querySelector(`[data-id="${id}"]`);if(target){document.querySelectorAll('.highlighted').forEach(e=>e.classList.remove('highlighted'));target.classList.add('highlighted');target.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>target.classList.remove('highlighted'),6000);}},500);}
+
+
+// ===== ADD PHONE BOOKING =====
+function openAddBooking(){
+  // Reset form
+  ['ab-name','ab-phone','ab-date','ab-time','ab-total','ab-notes'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+  document.getElementById('ab-service').value='';
+  document.getElementById('ab-msg').style.display='none';
+  // Default date to today
+  const today=new Date();
+  const yyyy=today.getFullYear(),mm=String(today.getMonth()+1).padStart(2,'0'),dd=String(today.getDate()).padStart(2,'0');
+  document.getElementById('ab-date').value=`${yyyy}-${mm}-${dd}`;
+  document.getElementById('addBookingModal').classList.add('open');
+}
+
+function closeAddBooking(){
+  document.getElementById('addBookingModal').classList.remove('open');
+}
+
+async function submitAdminBooking(){
+  const name=document.getElementById('ab-name').value.trim();
+  const phone=document.getElementById('ab-phone').value.trim();
+  const date=document.getElementById('ab-date').value;
+  const timeRaw=document.getElementById('ab-time').value; // "HH:MM" 24h
+  const service=document.getElementById('ab-service').value;
+  const totalRaw=document.getElementById('ab-total').value;
+  const notes=document.getElementById('ab-notes').value.trim();
+  const msgEl=document.getElementById('ab-msg');
+
+  // Validation
+  if(!name||!phone||!date||!timeRaw||!service){
+    msgEl.textContent='Please fill in all required fields.';
+    msgEl.style.display='block';
+    return;
+  }
+
+  // Convert 24h time to 12h display (e.g. "09:00" -> "9:00 AM")
+  function to12h(t){
+    let [h,m]=t.split(':').map(Number);
+    const ampm=h>=12?'PM':'AM';
+    h=h%12||12;
+    return `${h}:${String(m).padStart(2,'0')} ${ampm}`;
+  }
+  const time=to12h(timeRaw);
+  const total=totalRaw?parseInt(totalRaw,10):0;
+
+  const[y,mo,d]=date.split('-').map(Number);
+  const displayDate=new Date(y,mo-1,d).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  const btn=document.querySelector('#addBookingModal .btn-primary');
+  btn.disabled=true;btn.textContent='Saving...';
+
+  try{
+    // Get next booking number
+    const counterRef=db.collection('counters').doc('bookings');
+    const bookingNumber=await db.runTransaction(async t2=>{
+      const counter=await t2.get(counterRef);
+      const next=(counter.exists?counter.data().count:0)+1;
+      t2.set(counterRef,{count:next});
+      return next;
+    });
+
+    const fullService=notes?`${service} | Notes: ${notes}`:service;
+
+    await db.collection('bookings').add({
+      uid:'admin',
+      email:'admin',
+      bookingNumber,
+      name,
+      phone,
+      date,
+      time,
+      service:fullService,
+      duration:120,
+      total,
+      deposit:'Pending',
+      status:'Active',
+      source:'phone',
+      timestamp:firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // ntfy notification
+    try{
+      await fetch('https://ntfy.sh/carols-beauty-xyguiejd2143',{
+        method:'POST',
+        body:`📞 Phone Booking #${bookingNumber}\nName: ${name}\nPhone: ${phone}\nDate: ${displayDate}\nTime: ${time}\nService: ${fullService}${total?`\nTotal: $${total.toLocaleString()} JMD`:''}`,
+        headers:{'Title':'Phone Booking Added — Carols Beauty','Priority':'high','Tags':'telephone'}
+      });
+    }catch(e){console.log('ntfy error',e);}
+
+    showToast(`✅ Booking #${bookingNumber} saved for ${name}!`);
+    closeAddBooking();
+    showSection('reservationsSection');
+
+  }catch(err){
+    msgEl.textContent='Failed: '+err.message;
+    msgEl.style.display='block';
+  }finally{
+    btn.disabled=false;btn.textContent='✦ Save Booking';
+  }
+}
 
 document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});});
 </script>
