@@ -3,12 +3,55 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CAROL'S BEAUTY STYLES– BEST HAIRDRESSER ON MANDEVILLE PLAZA</title>
+<title>Carol's Beauty Styles – Best Hairdresser & Braiding Salon in Mandeville, Jamaica</title>
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="description" content="CAROL'S BEAUTY – Premium hair & beauty services in Mandeville, Jamaica.">
-<meta name="author" content="CAROL'S BEAUTY">
+<meta name="description" content="Carol's Beauty Styles — Mandeville's top hair salon for braids, knotless box braids, locs, weaves, silk press & lashes. Book online. Mon–Sat 7AM–6PM. Call (876) 850-5464.">
+<meta name="keywords" content="hairdresser Mandeville Jamaica, braids Mandeville, knotless box braids Jamaica, hair salon Mandeville, locs Mandeville, weave install Jamaica, silk press Mandeville, best hairdresser Mandeville, Carol's Beauty, braiding salon Jamaica">
+<meta name="author" content="Carol's Beauty Styles">
+<meta property="og:title" content="Carol's Beauty Styles – Best Braiding Salon in Mandeville, Jamaica"/>
+<meta property="og:description" content="Premium braids, locs, weaves, lashes & more. Book your appointment online. Mandeville, Jamaica."/>
+<meta property="og:url" content="https://carolatsandysbeauty.com/"/>
+<meta property="og:type" content="website"/>
 <link rel="canonical" href="https://carolatsandysbeauty.com/">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"CAROL'S BEAUTY","url":"https://carolatsandysbeauty.com","telephone":"+18768505464","address":{"@type":"PostalAddress","addressLocality":"Mandeville","addressCountry":"JM"}}</script>
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"HairSalon",
+  "name":"Carol's Beauty Styles",
+  "url":"https://carolatsandysbeauty.com",
+  "telephone":"+18768505464",
+  "priceRange":"$$",
+  "image":"https://carolatsandysbeauty.com/og-image.jpg",
+  "description":"Mandeville's premier hair salon specialising in knotless box braids, locs, weaves, cornrows, silk press, lashes and more. Serving Manchester Parish, Jamaica.",
+  "address":{
+    "@type":"PostalAddress",
+    "streetAddress":"Upstairs Home Solution, 13",
+    "addressLocality":"Mandeville",
+    "addressRegion":"Manchester",
+    "addressCountry":"JM"
+  },
+  "geo":{
+    "@type":"GeoCoordinates",
+    "latitude":"18.0411",
+    "longitude":"-77.5097"
+  },
+  "openingHoursSpecification":[
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"07:00","closes":"18:00"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"07:00","closes":"18:00"}
+  ],
+  "hasMap":"https://maps.app.goo.gl/3gVNKBvk4XybycEV6",
+  "sameAs":[]
+}<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Where is Carol's Beauty located in Mandeville?","acceptedAnswer":{"@type":"Answer","text":"Upstairs Home Solution, 13 Manchester Road, Mandeville, Jamaica. Open Monday to Saturday, 7:00 AM to 6:00 PM."}},
+    {"@type":"Question","name":"How do I book a hair appointment in Mandeville?","acceptedAnswer":{"@type":"Answer","text":"Book online at carolatsandysbeauty.com — choose your service, pick a date and time, and confirm with a $2,000 JMD deposit. Or call (876) 850-5464."}},
+    {"@type":"Question","name":"What hair services do you offer?","acceptedAnswer":{"@type":"Answer","text":"Knotless box braids, boho braids, goddess braids, tribal braids, cornrows, island twists, passion twists, soft locs, butterfly locs, faux locs, starter locs, jerry curls, weave install, silk press, hair colour, ponytails, lashes and eyebrow waxing."}},
+    {"@type":"Question","name":"How much do braids cost in Mandeville Jamaica?","acceptedAnswer":{"@type":"Answer","text":"Cornrows start from $5,000 JMD. Knotless box braids start from $8,000 JMD. Full pricing is on the website price list."}},
+    {"@type":"Question","name":"Do you do locs in Mandeville?","acceptedAnswer":{"@type":"Answer","text":"Yes — starter locs, soft locs, butterfly locs and faux locs all available at Carol's Beauty Styles in Mandeville."}}
+  ]
+}</script>
+</script>
 
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
@@ -824,6 +867,16 @@ body {
 ::-webkit-scrollbar-track { background: var(--navy); }
 ::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.4); border-radius: 4px; }
 input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
+
+/* FAQ */
+.faq-item{border-radius:10px;border:1px solid var(--glassline);margin-bottom:6px;overflow:hidden;background:var(--navy2);cursor:pointer;transition:border-color .2s;}
+.faq-item:hover,.faq-item.open{border-color:var(--line);}
+.faq-q{padding:14px 16px;font-size:13px;font-weight:600;color:var(--offwhite);display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:'Syne',sans-serif;letter-spacing:.3px;}
+.faq-q::after{content:'▾';font-size:14px;color:var(--violet);flex-shrink:0;transition:transform .25s;}
+.faq-item.open .faq-q::after{transform:rotate(180deg);}
+.faq-a{display:none;padding:0 16px 14px;font-size:13px;color:var(--dim);line-height:1.7;}
+.faq-item.open .faq-a{display:block;}
+
 </style>
 </head>
 <body>
@@ -880,6 +933,11 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
   <button class="sidebar-nav-link" id="snav-viewPrices" onclick="switchTab('viewPrices'); closeSidebar();">
     <span class="nav-link-icon">◈</span>
     <span class="nav-link-text">Price List</span>
+    <span class="nav-link-arrow">›</span>
+  </button>
+  <button class="sidebar-nav-link" id="snav-viewAbout" onclick="switchTab('viewAbout'); closeSidebar();">
+    <span class="nav-link-icon">✿</span>
+    <span class="nav-link-text">About Us</span>
     <span class="nav-link-arrow">›</span>
   </button>
 
@@ -1025,6 +1083,141 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
       <div class="price-cta"><button class="btn-neon btn-neon-primary" style="width:auto;" onclick="switchTab('viewBook')">Book Now →</button></div>
     </div>
   </div>
+
+  <!-- ABOUT VIEW -->
+  <div class="view" id="viewAbout">
+    <div class="book-hero">
+      <p class="page-eyebrow">Mandeville's Favourite Hair Salon</p>
+      <h2 class="page-title">About Carol's Beauty</h2>
+    </div>
+
+    <div style="padding:0 20px 40px;max-width:640px;margin:0 auto;">
+
+      <!-- Intro card -->
+      <div style="background:var(--navy3);border-radius:16px;padding:22px 20px;border:1px solid var(--line);margin-bottom:20px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--violet),var(--coral),var(--cyan));"></div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--violet);margin-bottom:10px;font-family:'Syne',sans-serif;">Who We Are</p>
+        <h3 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--offwhite);margin-bottom:14px;line-height:1.3;">Premium Hair & Beauty in the Heart of Mandeville, Jamaica</h3>
+        <p style="font-size:14px;color:var(--dim);line-height:1.8;margin-bottom:12px;">Carol's Beauty Styles is Mandeville's go-to destination for <strong style="color:var(--offwhite);">knotless box braids, locs, weaves, cornrows, silk press, lashes</strong> and so much more. Located upstairs at Home Solution, 13 Manchester Road, we've built a reputation across Manchester Parish for quality work, honest pricing and a warm, welcoming experience every single visit.</p>
+        <p style="font-size:14px;color:var(--dim);line-height:1.8;">Whether you're coming in for a <strong style="color:var(--offwhite);">fresh set of braids</strong>, a <strong style="color:var(--offwhite);">silk press</strong>, or your first set of <strong style="color:var(--offwhite);">starter locs</strong>, Carol and her team bring skill, care and creativity to every client in the chair.</p>
+      </div>
+
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+        <div style="background:var(--navy3);border-radius:12px;padding:16px 12px;text-align:center;border:1px solid var(--line);">
+          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">10+</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.4;">Years Experience</div>
+        </div>
+        <div style="background:var(--navy3);border-radius:12px;padding:16px 12px;text-align:center;border:1px solid var(--line);">
+          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;background:linear-gradient(120deg,var(--violet),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">500+</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.4;">Happy Clients</div>
+        </div>
+        <div style="background:var(--navy3);border-radius:12px;padding:16px 12px;text-align:center;border:1px solid var(--line);">
+          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;background:linear-gradient(120deg,var(--coral),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">30+</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.4;">Services Offered</div>
+        </div>
+      </div>
+
+      <!-- Services summary -->
+      <div style="background:var(--navy3);border-radius:16px;padding:22px 20px;border:1px solid var(--line);margin-bottom:20px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;font-family:'Syne',sans-serif;">What We Offer</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Knotless Box Braids</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Boho & Goddess Braids</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Cornrows & Tribal Braids</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Soft, Faux & Butterfly Locs</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Starter Locs</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Weave & Sew-In Install</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Silk Press</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Hair Colour</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Jerry Curls</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Lashes & Eyebrow Waxing</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Island & Passion Twists</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);"><span style="color:var(--violet);font-size:16px;">✦</span>Ponytails & Up-dos</div>
+        </div>
+      </div>
+
+      <!-- Why choose us -->
+      <div style="background:var(--navy3);border-radius:16px;padding:22px 20px;border:1px solid var(--line);margin-bottom:20px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--coral);margin-bottom:14px;font-family:'Syne',sans-serif;">Why Clients Choose Us</p>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-size:22px;flex-shrink:0;">📍</span>
+            <div><strong style="font-size:13px;color:var(--offwhite);display:block;margin-bottom:3px;">Central Mandeville Location</strong><span style="font-size:13px;color:var(--dim);line-height:1.6;">Conveniently located upstairs at Home Solution, 13 Manchester Road — easy to find, easy to reach from anywhere in the parish.</span></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-size:22px;flex-shrink:0;">💅</span>
+            <div><strong style="font-size:13px;color:var(--offwhite);display:block;margin-bottom:3px;">Quality You Can See</strong><span style="font-size:13px;color:var(--dim);line-height:1.6;">Every style is done with precision and care. We take pride in clean parts, neat edges and styles that last.</span></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-size:22px;flex-shrink:0;">📅</span>
+            <div><strong style="font-size:13px;color:var(--offwhite);display:block;margin-bottom:3px;">Easy Online Booking</strong><span style="font-size:13px;color:var(--dim);line-height:1.6;">Book your appointment online any time — no calls needed. Pick your service, choose a slot, confirm with a deposit and you're set.</span></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-size:22px;flex-shrink:0;">💰</span>
+            <div><strong style="font-size:13px;color:var(--offwhite);display:block;margin-bottom:3px;">Transparent Pricing</strong><span style="font-size:13px;color:var(--dim);line-height:1.6;">No surprises. Full price list available before you book so you always know what you're paying.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ — keyword rich, great for Google -->
+      <div style="background:var(--navy3);border-radius:16px;padding:22px 20px;border:1px solid var(--line);margin-bottom:20px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-family:'Syne',sans-serif;">Frequently Asked Questions</p>
+        <div style="display:flex;flex-direction:column;gap:2px;" id="faqList">
+
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">Where is Carol's Beauty located in Mandeville?</div>
+            <div class="faq-a">We are located upstairs at Home Solution, 13 Manchester Road, Mandeville, Jamaica. Open Monday to Saturday, 7:00 AM to 6:00 PM.</div>
+          </div>
+
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">How do I book an appointment?</div>
+            <div class="faq-a">You can book directly on this website — tap "Book Appointment" in the menu, choose your service and date, pick an available time slot, and confirm with a $2,000 JMD deposit. You can also call us at (876) 850-5464.</div>
+          </div>
+
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">What hair services do you offer?</div>
+            <div class="faq-a">We offer knotless box braids, boho braids, goddess braids, tribal braids, fulani braids, lemonade braids, cornrows, island twists, passion twists, soft locs, butterfly locs, faux locs, starter locs, jerry curls, natural sew-in, closure sew-in, frontal sew-in, quick weave, silk press, hair colour, ponytails, lashes, and eyebrow waxing.</div>
+          </div>
+
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">How much is a deposit?</div>
+            <div class="faq-a">A $2,000 JMD deposit is required to secure your appointment slot. This is sent via bank transfer to our Scotiabank account and your booking number used as the payment reference.</div>
+          </div>
+
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">What happens if I am late?</div>
+            <div class="faq-a">We have a strict lateness policy: 15 minutes late and the booking is cancelled. We respect everyone's time and keep a tight schedule so all clients are seen on time.</div>
+          </div>
+
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">How much do braids cost in Mandeville?</div>
+            <div class="faq-a">Prices start from $5,000 JMD for cornrows and go up depending on size and length. Knotless box braids start from $8,000 JMD. Full pricing is available on our Price List page.</div>
+          </div>
+
+          <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-q">Do you do locs in Mandeville?</div>
+            <div class="faq-a">Yes! We offer starter locs, soft locs, butterfly locs and faux locs. Whether you're starting your loc journey or adding a protective style, we've got you covered.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Location + CTA -->
+      <div style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(255,77,109,0.1));border-radius:16px;padding:22px 20px;border:1px solid var(--line);margin-bottom:20px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">📍</div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--offwhite);margin-bottom:6px;">Find Us in Mandeville</h3>
+        <p style="font-size:13px;color:var(--dim);margin-bottom:16px;line-height:1.6;">Upstairs Home Solution, 13 Manchester Road<br>Mandeville, Manchester, Jamaica<br>Mon – Sat · 7:00 AM – 6:00 PM</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn-neon btn-neon-primary" style="width:100%;" onclick="switchTab('viewBook')">Book Appointment →</button>
+          <a href="https://maps.app.goo.gl/3gVNKBvk4XybycEV6" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;background:var(--navy2);color:var(--cyan);border:1px solid rgba(0,212,255,0.25);border-radius:12px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;">📍 Get Directions on Google Maps</a>
+          <a href="https://wa.me/18768505464?text=Hi%20Carol%2C%20I%27d%20like%20to%20enquire%20about%20a%20booking." target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;background:linear-gradient(135deg,#25D366,#1DA851);color:#fff;border-radius:12px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;">💬 WhatsApp Us</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 
 </main>
 
