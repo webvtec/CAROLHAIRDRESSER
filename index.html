@@ -1178,7 +1178,7 @@ function isAdmin(user) {
 
 function login() {
   document.getElementById('adminLoginModal').classList.add('open');
-  setTimeout(() => getAdminRecaptcha(), 300);
+  setTimeout(() => getAdminRecaptcha(), 600);
 }
 function closeAdminModal() {
   document.getElementById('adminLoginModal').classList.remove('open');
@@ -1211,7 +1211,10 @@ function getAdminRecaptcha() {
       callback: function() {},
       'expired-callback': function() { resetAdminRecaptcha(); }
     });
-    adminRecaptchaVerifier.render();
+    adminRecaptchaVerifier.render().catch(e => {
+      console.warn('reCAPTCHA render error:', e);
+      resetAdminRecaptcha();
+    });
   }
   return adminRecaptchaVerifier;
 }
