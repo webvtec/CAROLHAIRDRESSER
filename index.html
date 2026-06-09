@@ -10,10 +10,10 @@
 <link rel="canonical" href="https://carolatsandysbeauty.com/">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"CAROL'S BEAUTY","url":"https://carolatsandysbeauty.com","telephone":"+18763422293","address":{"@type":"PostalAddress","addressLocality":"Mandeville","addressCountry":"JM"}}</script>
 
-<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 
@@ -1044,7 +1044,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
     <div id="adminPhoneStep1">
       <input id="adminPhoneInput" type="tel" placeholder="8768505464" autocomplete="tel"
 style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:10px;text-align:center;"/>
-      <button onclick="sendAdminCode()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">📱 Send code via SMS</button>
+      <button id="adminSendBtn" onclick="sendAdminCode()" disabled style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;opacity:0.5;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">📱 Send code via SMS</button>
     </div>
 
     <!-- Phone step 2: enter code -->
@@ -1208,15 +1208,30 @@ function getAdminRecaptcha() {
   if (!adminRecaptchaVerifier) {
     adminRecaptchaVerifier = new firebase.auth.RecaptchaVerifier('adminRecaptcha', {
       size: 'normal',
-      callback: function() {},
-      'expired-callback': function() { resetAdminRecaptcha(); }
+      callback: function(token) {
+        const btn = document.getElementById('adminSendBtn');
+        if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+      },
+      'expired-callback': function() {
+        document.getElementById('adminSendBtn').disabled = true;
+        resetAdminRecaptcha();
+        setTimeout(() => getAdminRecaptcha(), 300);
+      }
     });
-    adminRecaptchaVerifier.render().catch(e => {
-      console.warn('reCAPTCHA render error:', e);
-      resetAdminRecaptcha();
-    });
+    adminRecaptchaVerifier.render();
   }
   return adminRecaptchaVerifier;
+}
+
+function resetAdminRecaptcha() {
+  try {
+    if (adminRecaptchaVerifier) {
+      adminRecaptchaVerifier.clear();
+    }
+  } catch(e) {}
+  adminRecaptchaVerifier = null;
+  const el = document.getElementById('adminRecaptcha');
+  if (el) el.innerHTML = '';
 }
 function resetAdminRecaptcha() {
   try {
@@ -1232,13 +1247,13 @@ function sendAdminCode() {
   const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
   let raw = document.getElementById('adminPhoneInput').value.replace(/\D/g,'');
   if (!raw) { msg.textContent = "Enter a phone number."; msg.style.display = "block"; return; }
-  // Auto-build E.164: 10 digits = +1XXXXXXXXXX, 11 digits starting with 1 = +1XXXXXXXXXX, else prepend +
   let phone;
   if (raw.length === 10) phone = '+1' + raw;
   else if (raw.length === 11 && raw.startsWith('1')) phone = '+' + raw;
   else phone = '+' + raw;
   if (!ADMIN_PHONES.includes(phone)) { msg.textContent = "Access denied."; msg.style.display = "block"; return; }
-  const verifier = getAdminRecaptcha();
+  const verifier = adminRecaptchaVerifier;
+  if (!verifier) { msg.textContent = "Please tick the reCAPTCHA checkbox first."; msg.style.display = "block"; return; }
   firebase.auth().signInWithPhoneNumber(phone, verifier)
     .then(result => {
       adminConfirmationResult = result;
@@ -1247,8 +1262,11 @@ function sendAdminCode() {
       document.getElementById('adminCodeInput').focus();
     })
     .catch(error => {
-      resetAdminRecaptcha();
       msg.textContent = "Couldn't send code: " + error.message; msg.style.display = "block";
+      resetAdminRecaptcha();
+      const btn = document.getElementById('adminSendBtn');
+      if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; }
+      setTimeout(() => getAdminRecaptcha(), 300);
     });
 }
 
