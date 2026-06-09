@@ -1028,7 +1028,32 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
     <button class="modal-close" onclick="closeAdminModal()">×</button>
     <div style="font-size:32px;margin-bottom:8px;color:var(--violet);">✦</div>
     <h3 class="modal-title">Admin Access</h3>
-    <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Sign in with the authorised Google account.</p>
+
+    <!-- METHOD 1: PIN -->
+    <div style="margin-bottom:18px;">
+      <p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:10px;font-family:'Syne',sans-serif;">Enter PIN</p>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input id="adminPinInput" type="password" maxlength="7" inputmode="numeric" pattern="[0-9]*" placeholder="•••••••"
+          style="flex:1;padding:13px 14px;background:var(--navy2);border:1px solid var(--glassline);border-radius:12px;color:var(--offwhite);font-family:'Outfit',sans-serif;font-size:18px;letter-spacing:6px;text-align:center;transition:border-color 0.25s,box-shadow 0.25s;outline:none;"
+          onfocus="this.style.borderColor='var(--violet)';this.style.boxShadow='0 0 0 3px var(--violetglow)'"
+          onblur="this.style.borderColor='var(--glassline)';this.style.boxShadow='none'"
+          onkeydown="if(event.key==='Enter')submitAdminPin()"/>
+        <button onclick="submitAdminPin()"
+          style="padding:13px 16px;background:linear-gradient(135deg,var(--violet),var(--violet2));color:#fff;border:none;border-radius:12px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;transition:all 0.25s;white-space:nowrap;"
+          onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">Go ✦</button>
+      </div>
+      <p id="adminPinMsg" style="color:var(--coral);font-size:12px;margin-top:8px;display:none;"></p>
+    </div>
+
+    <!-- DIVIDER -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+      <div style="flex:1;height:1px;background:var(--glassline);"></div>
+      <span style="font-size:10px;color:var(--dimmer);letter-spacing:2px;text-transform:uppercase;font-family:'Syne',sans-serif;">or</span>
+      <div style="flex:1;height:1px;background:var(--glassline);"></div>
+    </div>
+
+    <!-- METHOD 2: Google -->
+    <p style="font-size:12px;color:var(--dim);margin-bottom:12px;">Sign in with the authorised Google account.</p>
     <button onclick="adminGoogleSignIn()" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">
       <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Sign in with Google
@@ -1142,8 +1167,48 @@ firebase.auth().onAuthStateChanged(user => {
 
 const ADMIN_UID = "DYQo9my6BkPngCSSKwo2ZjuUsh23";
 
-function login() { document.getElementById('adminLoginModal').classList.add('open'); }
-function closeAdminModal() { document.getElementById('adminLoginModal').classList.remove('open'); document.getElementById('adminLoginMsg').style.display = 'none'; }
+function login() {
+  document.getElementById('adminLoginModal').classList.add('open');
+  setTimeout(() => document.getElementById('adminPinInput').focus(), 200);
+}
+function closeAdminModal() {
+  document.getElementById('adminLoginModal').classList.remove('open');
+  document.getElementById('adminLoginMsg').style.display = 'none';
+  const pinMsg = document.getElementById('adminPinMsg');
+  if (pinMsg) pinMsg.style.display = 'none';
+  const pinInput = document.getElementById('adminPinInput');
+  if (pinInput) pinInput.value = '';
+}
+
+async function submitAdminPin() {
+  const input = document.getElementById('adminPinInput');
+  const msg = document.getElementById('adminPinMsg');
+  const entered = input.value.trim();
+  if (!entered) { msg.textContent = 'Please enter the PIN.'; msg.style.display = 'block'; return; }
+  msg.style.display = 'none';
+  try {
+    const res = await fetch('pin.html?_=' + Date.now());
+    const html = await res.text();
+    const match = html.match(/CORRECT_PIN\s*=\s*['"]([^'"]+)['"]/);
+    if (!match) { msg.textContent = 'Could not verify PIN. Try again.'; msg.style.display = 'block'; return; }
+    const correctPin = match[1];
+    if (entered === correctPin) {
+      sessionStorage.setItem('pinAccess', 'granted');
+      closeAdminModal();
+      window.location.href = 'dashboard.html';
+    } else {
+      input.value = '';
+      input.style.borderColor = 'var(--coral)';
+      input.style.boxShadow = '0 0 0 3px var(--coralglow)';
+      setTimeout(() => { input.style.borderColor = 'var(--glassline)'; input.style.boxShadow = 'none'; }, 1200);
+      msg.textContent = 'Incorrect PIN — try again.';
+      msg.style.display = 'block';
+    }
+  } catch (e) {
+    msg.textContent = 'Error verifying PIN. Try again.';
+    msg.style.display = 'block';
+  }
+}
 
 function adminGoogleSignIn() {
   const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
