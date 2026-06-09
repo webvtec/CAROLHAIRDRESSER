@@ -1030,7 +1030,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
     <button class="modal-close" onclick="closeAdminModal()">×</button>
     <div style="font-size:32px;margin-bottom:8px;color:var(--violet);">✦</div>
     <h3 class="modal-title">Admin Access</h3>
-    <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Sign in with the authorised Google account or admin phone number.</p>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Sign in with Google or use Face / Fingerprint.</p>
     <button onclick="adminGoogleSignIn()" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">
       <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Sign in with Google
@@ -1040,18 +1040,14 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
       <div style="flex:1;height:1px;background:var(--glassline);"></div>OR<div style="flex:1;height:1px;background:var(--glassline);"></div>
     </div>
 
-    <!-- Phone step 1: enter number -->
-    <div id="adminPhoneStep1">
-      <input id="adminPhoneInput" type="tel" placeholder="8768505464" autocomplete="tel"
-style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:10px;text-align:center;"/>
-      <button id="adminSendBtn" onclick="sendAdminCode()" disabled style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;opacity:0.5;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">📱 Send code via SMS</button>
-    </div>
-
-    <!-- Phone step 2: enter code -->
-    <div id="adminPhoneStep2" style="display:none;">
-      <input id="adminCodeInput" type="text" inputmode="numeric" placeholder="6-digit code" autocomplete="one-time-code"
-style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:10px;text-align:center;letter-spacing:4px;"/>
-      <button onclick="verifyAdminCode()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">✓ Verify &amp; sign in</button>
+    <!-- Biometric login -->
+    <div id="adminBiometricSection">
+      <button id="adminBiometricBtn" onclick="adminBiometricSignIn()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:8px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">
+        🔐 Sign in with Face / Fingerprint
+      </button>
+      <button id="adminRegisterBtn" onclick="adminBiometricRegister()" style="width:100%;padding:10px;background:none;color:var(--dimmer);border:1px dashed var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:12px;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)';this.style.color='var(--offwhite)'" onmouseout="this.style.borderColor='var(--glassline)';this.style.color='var(--dimmer)'">
+        ＋ Set up Face / Fingerprint (first time)
+      </button>
     </div>
 
     <div id="adminRecaptcha" style="display:flex;justify-content:center;margin-bottom:12px;"></div>
@@ -1176,16 +1172,12 @@ function isAdmin(user) {
   return false;
 }
 
-function login() {
-  document.getElementById('adminLoginModal').classList.add('open');
-  setTimeout(() => getAdminRecaptcha(), 600);
-}
+function login() { document.getElementById('adminLoginModal').classList.add('open'); }
 function closeAdminModal() {
   document.getElementById('adminLoginModal').classList.remove('open');
-  document.getElementById('adminLoginMsg').style.display = 'none';
-  document.getElementById('adminPhoneStep1').style.display = 'block';
-  document.getElementById('adminPhoneStep2').style.display = 'none';
-  resetAdminRecaptcha();
+  const msg = document.getElementById('adminLoginMsg');
+  msg.style.display = 'none';
+  msg.style.color = 'var(--coral)';
 }
 
 function adminGoogleSignIn() {
@@ -1200,89 +1192,75 @@ function adminGoogleSignIn() {
     .catch(error => { if (error.code === 'auth/popup-closed-by-user') return; msg.textContent = "Sign-in failed: " + error.message; msg.style.display = "block"; });
 }
 
-// ===== ADMIN PHONE SIGN-IN =====
-let adminConfirmationResult = null;
-let adminRecaptchaVerifier = null;
+// ===== ADMIN BIOMETRIC (Face / Fingerprint) =====
+const BIOMETRIC_TOKEN = 'cbsAdmin_xK9mP2v8';
+const BIOMETRIC_CRED_KEY = 'carolAdminCredId';
 
-function getAdminRecaptcha() {
-  if (!adminRecaptchaVerifier) {
-    adminRecaptchaVerifier = new firebase.auth.RecaptchaVerifier('adminRecaptcha', {
-      size: 'normal',
-      callback: function(token) {
-        const btn = document.getElementById('adminSendBtn');
-        if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
-      },
-      'expired-callback': function() {
-        document.getElementById('adminSendBtn').disabled = true;
-        resetAdminRecaptcha();
-        setTimeout(() => getAdminRecaptcha(), 300);
+function adminBiometricAvailable() {
+  return window.PublicKeyCredential !== undefined;
+}
+
+async function adminBiometricRegister() {
+  const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
+  if (!adminBiometricAvailable()) {
+    msg.textContent = "This device doesn't support Face/Fingerprint login."; msg.style.display = 'block'; return;
+  }
+  try {
+    const challenge = crypto.getRandomValues(new Uint8Array(32));
+    const userId = crypto.getRandomValues(new Uint8Array(16));
+    const credential = await navigator.credentials.create({
+      publicKey: {
+        challenge,
+        rp: { name: "Carol's Beauty Admin", id: location.hostname },
+        user: { id: userId, name: 'carol-admin', displayName: "Carol" },
+        pubKeyCredParams: [{ alg: -7, type: 'public-key' }, { alg: -257, type: 'public-key' }],
+        authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'preferred' },
+        timeout: 60000
       }
     });
-    adminRecaptchaVerifier.render();
+    const credId = btoa(String.fromCharCode(...new Uint8Array(credential.rawId)));
+    localStorage.setItem(BIOMETRIC_CRED_KEY, credId);
+    msg.style.color = 'var(--cyan)';
+    msg.textContent = '✓ Face/Fingerprint set up! You can now use it to sign in.';
+    msg.style.display = 'block';
+    document.getElementById('adminBiometricBtn').style.display = 'block';
+  } catch (e) {
+    msg.style.color = 'var(--coral)';
+    msg.textContent = e.name === 'NotAllowedError' ? 'Cancelled — try again.' : 'Setup failed: ' + e.message;
+    msg.style.display = 'block';
   }
-  return adminRecaptchaVerifier;
 }
 
-function resetAdminRecaptcha() {
-  try {
-    if (adminRecaptchaVerifier) {
-      adminRecaptchaVerifier.clear();
-    }
-  } catch(e) {}
-  adminRecaptchaVerifier = null;
-  const el = document.getElementById('adminRecaptcha');
-  if (el) el.innerHTML = '';
-}
-function resetAdminRecaptcha() {
-  try {
-    if (adminRecaptchaVerifier) {
-      adminRecaptchaVerifier.clear();
-      adminRecaptchaVerifier = null;
-      document.getElementById('adminRecaptcha').innerHTML = '';
-    }
-  } catch (e) { adminRecaptchaVerifier = null; }
-}
-
-function sendAdminCode() {
+async function adminBiometricSignIn() {
   const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
-  let raw = document.getElementById('adminPhoneInput').value.replace(/\D/g,'');
-  if (!raw) { msg.textContent = "Enter a phone number."; msg.style.display = "block"; return; }
-  let phone;
-  if (raw.length === 10) phone = '+1' + raw;
-  else if (raw.length === 11 && raw.startsWith('1')) phone = '+' + raw;
-  else phone = '+' + raw;
-  if (!ADMIN_PHONES.includes(phone)) { msg.textContent = "Access denied."; msg.style.display = "block"; return; }
-  const verifier = adminRecaptchaVerifier;
-  if (!verifier) { msg.textContent = "Please tick the reCAPTCHA checkbox first."; msg.style.display = "block"; return; }
-  firebase.auth().signInWithPhoneNumber(phone, verifier)
-    .then(result => {
-      adminConfirmationResult = result;
-      document.getElementById('adminPhoneStep1').style.display = 'none';
-      document.getElementById('adminPhoneStep2').style.display = 'block';
-      document.getElementById('adminCodeInput').focus();
-    })
-    .catch(error => {
-      msg.textContent = "Couldn't send code: " + error.message; msg.style.display = "block";
-      resetAdminRecaptcha();
-      const btn = document.getElementById('adminSendBtn');
-      if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; }
-      setTimeout(() => getAdminRecaptcha(), 300);
+  if (!adminBiometricAvailable()) {
+    msg.textContent = "This device doesn't support Face/Fingerprint login."; msg.style.display = 'block'; return;
+  }
+  const credIdStr = localStorage.getItem(BIOMETRIC_CRED_KEY);
+  if (!credIdStr) {
+    msg.style.color = 'var(--coral)';
+    msg.textContent = 'No biometric registered. Use "Set up" first.'; msg.style.display = 'block'; return;
+  }
+  try {
+    const credId = Uint8Array.from(atob(credIdStr), c => c.charCodeAt(0));
+    const challenge = crypto.getRandomValues(new Uint8Array(32));
+    await navigator.credentials.get({
+      publicKey: {
+        challenge,
+        rpId: location.hostname,
+        allowCredentials: [{ type: 'public-key', id: credId, transports: ['internal'] }],
+        userVerification: 'required',
+        timeout: 60000
+      }
     });
-}
-
-function verifyAdminCode() {
-  const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
-  const code = document.getElementById('adminCodeInput').value.trim();
-  if (!adminConfirmationResult) { msg.textContent = "Request a code first."; msg.style.display = "block"; return; }
-  if (!code) { msg.textContent = "Enter the code you received."; msg.style.display = "block"; return; }
-  adminConfirmationResult.confirm(code)
-    .then(result => {
-      console.log('Firebase phone number:', result.user.phoneNumber);
-      console.log('Firebase UID:', result.user.uid);
-      if (!isAdmin(result.user)) { return firebase.auth().signOut().then(() => { msg.textContent = "Access denied. Phone: " + result.user.phoneNumber; msg.style.display = "block"; }); }
-      closeAdminModal(); window.location.href = 'dashboard.html';
-    })
-    .catch(error => { msg.textContent = "Invalid or expired code."; msg.style.display = "block"; });
+    sessionStorage.setItem('cbsAdminToken', BIOMETRIC_TOKEN);
+    closeAdminModal();
+    window.location.href = 'dashboard.html';
+  } catch (e) {
+    msg.style.color = 'var(--coral)';
+    msg.textContent = e.name === 'NotAllowedError' ? 'Cancelled — try again.' : 'Sign-in failed: ' + e.message;
+    msg.style.display = 'block';
+  }
 }
 
 function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout failed: ' + e.message)); }

@@ -363,11 +363,19 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore(),storage=firebase.storage();
 const ADMIN_UIDS=["DYQo9my6BkPngCSSKwo2ZjuUsh23"];
 const ADMIN_PHONES=["+18763422293"];
+const BIOMETRIC_TOKEN='cbsAdmin_xK9mP2v8';
 function isAdmin(user){if(!user)return false;if(ADMIN_UIDS.includes(user.uid))return true;if(user.phoneNumber&&ADMIN_PHONES.includes(user.phoneNumber))return true;return false;}
+function isBiometricAdmin(){return sessionStorage.getItem('cbsAdminToken')===BIOMETRIC_TOKEN;}
 
 // AUTH GUARD
 firebase.auth().onAuthStateChanged(user=>{
   const overlay=document.getElementById('accessOverlay'),status=document.getElementById('accessStatus'),content=document.getElementById('dashboardContent');
+  if(isBiometricAdmin()){
+    status.textContent='Access granted ✦';status.style.color='var(--cyan)';
+    setTimeout(()=>{overlay.style.transition='opacity .45s';overlay.style.opacity='0';setTimeout(()=>{overlay.style.display='none';content.style.display='block';},450);},600);
+    loadGallery();showSection('gallerySection');loadReservations();loadUnavailableDates();
+    return;
+  }
   if(!user){status.textContent='Access denied — redirecting...';status.style.color='var(--coral)';setTimeout(()=>{window.location.href='index.html';},1200);return;}
   if(!isAdmin(user)){status.textContent='Unauthorised — signing out...';status.style.color='var(--coral)';firebase.auth().signOut().then(()=>setTimeout(()=>{window.location.href='index.html';},1200));return;}
   status.textContent='Access granted ✦';status.style.color='var(--cyan)';
@@ -375,7 +383,7 @@ firebase.auth().onAuthStateChanged(user=>{
   loadGallery();showSection('gallerySection');loadReservations();loadUnavailableDates();
 });
 
-function signOut(){firebase.auth().signOut().then(()=>{window.location.href='index.html';});}
+function signOut(){sessionStorage.removeItem('cbsAdminToken');firebase.auth().signOut().then(()=>{window.location.href='index.html';});}
 
 // TABS
 function showSection(id){
