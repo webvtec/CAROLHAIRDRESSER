@@ -1182,6 +1182,7 @@ function closeAdminModal() {
   document.getElementById('adminLoginMsg').style.display = 'none';
   document.getElementById('adminPhoneStep1').style.display = 'block';
   document.getElementById('adminPhoneStep2').style.display = 'none';
+  resetAdminRecaptcha();
 }
 
 function adminGoogleSignIn() {
@@ -1203,14 +1204,18 @@ let adminRecaptchaVerifier = null;
 function getAdminRecaptcha() {
   if (!adminRecaptchaVerifier) {
     adminRecaptchaVerifier = new firebase.auth.RecaptchaVerifier('adminRecaptcha', { size: 'invisible' });
+    adminRecaptchaVerifier.render();
   }
   return adminRecaptchaVerifier;
 }
 function resetAdminRecaptcha() {
   try {
-    if (adminRecaptchaVerifier) { adminRecaptchaVerifier.clear(); }
-  } catch (e) {}
-  adminRecaptchaVerifier = null;
+    if (adminRecaptchaVerifier) {
+      adminRecaptchaVerifier.clear();
+      adminRecaptchaVerifier = null;
+      document.getElementById('adminRecaptcha').innerHTML = '';
+    }
+  } catch (e) { adminRecaptchaVerifier = null; }
 }
 
 function sendAdminCode() {
