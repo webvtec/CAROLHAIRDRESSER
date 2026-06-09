@@ -1054,7 +1054,7 @@ style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);bor
       <button onclick="verifyAdminCode()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">✓ Verify &amp; sign in</button>
     </div>
 
-    <div id="adminRecaptcha"></div>
+    <div id="adminRecaptcha" style="display:flex;justify-content:center;margin-bottom:12px;"></div>
 
     <p id="adminLoginMsg" style="color:var(--coral);font-size:13px;display:none;"></p>
     <button onclick="closeAdminModal()" style="background:none;border:none;color:var(--dimmer);font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;">Cancel</button>
@@ -1176,7 +1176,10 @@ function isAdmin(user) {
   return false;
 }
 
-function login() { document.getElementById('adminLoginModal').classList.add('open'); }
+function login() {
+  document.getElementById('adminLoginModal').classList.add('open');
+  setTimeout(() => getAdminRecaptcha(), 300);
+}
 function closeAdminModal() {
   document.getElementById('adminLoginModal').classList.remove('open');
   document.getElementById('adminLoginMsg').style.display = 'none';
@@ -1203,7 +1206,11 @@ let adminRecaptchaVerifier = null;
 
 function getAdminRecaptcha() {
   if (!adminRecaptchaVerifier) {
-    adminRecaptchaVerifier = new firebase.auth.RecaptchaVerifier('adminRecaptcha', { size: 'invisible' });
+    adminRecaptchaVerifier = new firebase.auth.RecaptchaVerifier('adminRecaptcha', {
+      size: 'normal',
+      callback: function() {},
+      'expired-callback': function() { resetAdminRecaptcha(); }
+    });
     adminRecaptchaVerifier.render();
   }
   return adminRecaptchaVerifier;
