@@ -186,7 +186,9 @@ body {
   flex-direction: column;
   transform: translateX(-100%);
   transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 .sidebar.open { transform: translateX(0); }
 
@@ -797,7 +799,7 @@ body {
    ================================================ */
 .modal-overlay { position: fixed; inset: 0; background: rgba(5,10,26,0.85); display: none; justify-content: center; align-items: center; z-index: 9000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 16px; }
 .modal-overlay.open { display: flex; }
-.modal-box { background: var(--navy3); border-radius: 22px; width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto; position: relative; padding: 26px; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(124,58,237,0.2); overflow: hidden; }
+.modal-box { background: var(--navy3); border-radius: 22px; width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto; overflow-x: hidden; position: relative; padding: 26px; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(124,58,237,0.2); }
 .modal-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--violet), var(--coral), var(--cyan)); }
 .modal-close { position: sticky; top: 0; float: right; background: none; border: none; color: var(--dimmer); font-size: 26px; cursor: pointer; line-height: 1; z-index: 10; padding: 0 0 10px 10px; }
 .modal-close:hover { color: var(--coral); }
@@ -1040,7 +1042,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
 
     <!-- Phone step 1: enter number -->
     <div id="adminPhoneStep1">
-      <input id="adminPhoneInput" type="tel" placeholder="+18768505464" autocomplete="tel"
+      <input id="adminPhoneInput" type="tel" placeholder="+1876XXXXXXX" autocomplete="tel"
 style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:10px;text-align:center;"/>
       <button onclick="sendAdminCode()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">📱 Send code via SMS</button>
     </div>
