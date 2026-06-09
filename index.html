@@ -1028,11 +1028,32 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
     <button class="modal-close" onclick="closeAdminModal()">×</button>
     <div style="font-size:32px;margin-bottom:8px;color:var(--violet);">✦</div>
     <h3 class="modal-title">Admin Access</h3>
-    <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Sign in with the authorised Google account.</p>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Sign in with the authorised Google account or admin phone number.</p>
     <button onclick="adminGoogleSignIn()" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">
       <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Sign in with Google
     </button>
+
+    <div style="display:flex;align-items:center;gap:10px;margin:6px 0 14px;color:var(--dimmer);font-size:12px;">
+      <div style="flex:1;height:1px;background:var(--glassline);"></div>OR<div style="flex:1;height:1px;background:var(--glassline);"></div>
+    </div>
+
+    <!-- Phone step 1: enter number -->
+    <div id="adminPhoneStep1">
+      <input id="adminPhoneInput" type="tel" placeholder="+1876XXXXXXX" autocomplete="tel"
+style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:10px;text-align:center;"/>
+      <button onclick="sendAdminCode()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">📱 Send code via SMS</button>
+    </div>
+
+    <!-- Phone step 2: enter code -->
+    <div id="adminPhoneStep2" style="display:none;">
+      <input id="adminCodeInput" type="text" inputmode="numeric" placeholder="6-digit code" autocomplete="one-time-code"
+style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:10px;text-align:center;letter-spacing:4px;"/>
+      <button onclick="verifyAdminCode()" style="width:100%;padding:13px;background:var(--navy2);color:var(--offwhite);border:1px solid var(--glassline);border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.25s;margin-bottom:12px;" onmouseover="this.style.borderColor='var(--violet)'" onmouseout="this.style.borderColor='var(--glassline)'">✓ Verify &amp; sign in</button>
+    </div>
+
+    <div id="adminRecaptcha"></div>
+
     <p id="adminLoginMsg" style="color:var(--coral);font-size:13px;display:none;"></p>
     <button onclick="closeAdminModal()" style="background:none;border:none;color:var(--dimmer);font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;">Cancel</button>
   </div>
@@ -1140,10 +1161,26 @@ firebase.auth().onAuthStateChanged(user => {
   updateAuthButton(user);
 });
 
-const ADMIN_UID = "DYQo9my6BkPngCSSKwo2ZjuUsh23";
+// ===== ADMIN IDENTITY =====
+// Google account UID(s) allowed as admin
+const ADMIN_UIDS = ["DYQo9my6BkPngCSSKwo2ZjuUsh23"];
+// Phone number(s) allowed as admin — MUST be E.164 format, e.g. "+18761234567"
+// 👉 Replace the placeholder below with the real admin phone number.
+const ADMIN_PHONES = ["+1876XXXXXXX"];
+function isAdmin(user) {
+  if (!user) return false;
+  if (ADMIN_UIDS.includes(user.uid)) return true;
+  if (user.phoneNumber && ADMIN_PHONES.includes(user.phoneNumber)) return true;
+  return false;
+}
 
 function login() { document.getElementById('adminLoginModal').classList.add('open'); }
-function closeAdminModal() { document.getElementById('adminLoginModal').classList.remove('open'); document.getElementById('adminLoginMsg').style.display = 'none'; }
+function closeAdminModal() {
+  document.getElementById('adminLoginModal').classList.remove('open');
+  document.getElementById('adminLoginMsg').style.display = 'none';
+  document.getElementById('adminPhoneStep1').style.display = 'block';
+  document.getElementById('adminPhoneStep2').style.display = 'none';
+}
 
 function adminGoogleSignIn() {
   const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
@@ -1151,10 +1188,61 @@ function adminGoogleSignIn() {
   provider.setCustomParameters({ prompt: 'select_account' });
   firebase.auth().signInWithPopup(provider)
     .then(result => {
-      if (result.user.uid !== ADMIN_UID) { return firebase.auth().signOut().then(() => { msg.textContent = "Access denied."; msg.style.display = "block"; }); }
+      if (!isAdmin(result.user)) { return firebase.auth().signOut().then(() => { msg.textContent = "Access denied."; msg.style.display = "block"; }); }
       closeAdminModal(); window.location.href = 'dashboard.html';
     })
     .catch(error => { if (error.code === 'auth/popup-closed-by-user') return; msg.textContent = "Sign-in failed: " + error.message; msg.style.display = "block"; });
+}
+
+// ===== ADMIN PHONE SIGN-IN =====
+let adminConfirmationResult = null;
+let adminRecaptchaVerifier = null;
+
+function getAdminRecaptcha() {
+  if (!adminRecaptchaVerifier) {
+    adminRecaptchaVerifier = new firebase.auth.RecaptchaVerifier('adminRecaptcha', { size: 'invisible' });
+  }
+  return adminRecaptchaVerifier;
+}
+function resetAdminRecaptcha() {
+  try {
+    if (adminRecaptchaVerifier) { adminRecaptchaVerifier.clear(); }
+  } catch (e) {}
+  adminRecaptchaVerifier = null;
+}
+
+function sendAdminCode() {
+  const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
+  let phone = document.getElementById('adminPhoneInput').value.trim();
+  if (!phone) { msg.textContent = "Enter a phone number."; msg.style.display = "block"; return; }
+  if (!phone.startsWith('+')) { msg.textContent = "Use full international format, e.g. +1876..."; msg.style.display = "block"; return; }
+  // Only allow the authorised number to even request a code
+  if (!ADMIN_PHONES.includes(phone)) { msg.textContent = "Access denied."; msg.style.display = "block"; return; }
+  const verifier = getAdminRecaptcha();
+  firebase.auth().signInWithPhoneNumber(phone, verifier)
+    .then(result => {
+      adminConfirmationResult = result;
+      document.getElementById('adminPhoneStep1').style.display = 'none';
+      document.getElementById('adminPhoneStep2').style.display = 'block';
+      document.getElementById('adminCodeInput').focus();
+    })
+    .catch(error => {
+      resetAdminRecaptcha();
+      msg.textContent = "Couldn't send code: " + error.message; msg.style.display = "block";
+    });
+}
+
+function verifyAdminCode() {
+  const msg = document.getElementById('adminLoginMsg'); msg.style.display = 'none';
+  const code = document.getElementById('adminCodeInput').value.trim();
+  if (!adminConfirmationResult) { msg.textContent = "Request a code first."; msg.style.display = "block"; return; }
+  if (!code) { msg.textContent = "Enter the code you received."; msg.style.display = "block"; return; }
+  adminConfirmationResult.confirm(code)
+    .then(result => {
+      if (!isAdmin(result.user)) { return firebase.auth().signOut().then(() => { msg.textContent = "Access denied."; msg.style.display = "block"; }); }
+      closeAdminModal(); window.location.href = 'dashboard.html';
+    })
+    .catch(error => { msg.textContent = "Invalid or expired code."; msg.style.display = "block"; });
 }
 
 function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout failed: ' + e.message)); }
